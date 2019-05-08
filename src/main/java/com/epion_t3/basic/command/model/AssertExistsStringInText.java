@@ -24,5 +24,10 @@ public class AssertExistsStringInText extends Command {
      */
     private String encoding = "UTF-8";
 
+    /**
+     * 確認回数.
+     */
+    private Integer num;
+
 
 }

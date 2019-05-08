@@ -22,6 +22,7 @@ public enum BasicMessages implements Messages {
     BASIC_ERR_9009("com.epion_t3.basic.err.9009"),
     BASIC_ERR_9010("com.epion_t3.basic.err.9010"),
     BASIC_ERR_9011("com.epion_t3.basic.err.9011"),
+    BASIC_ERR_9012("com.epion_t3.basic.err.9012"),
     BASIC_INF_0001("com.epion_t3.basic.inf.0001"),
 
     ;
