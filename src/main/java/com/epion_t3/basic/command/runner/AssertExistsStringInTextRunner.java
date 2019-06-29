@@ -34,8 +34,6 @@ public class AssertExistsStringInTextRunner extends AbstractCommandRunner<Assert
             p = Pattern.compile(command.getValue());
         }
 
-        Integer assertNum = 0;
-
         boolean existsFlg = false;
         List<String> lineList = null;
         try {
@@ -45,48 +43,26 @@ public class AssertExistsStringInTextRunner extends AbstractCommandRunner<Assert
                     Matcher m = p.matcher(line);
                     if (m.find()) {
                         existsFlg = true;
-                        assertNum++;
-                        if (command.getNum() == null) {
-                            break;
-                        }
+                        break;
                     }
                 } else {
                     if (line.contains(command.getValue())) {
                         existsFlg = true;
-                        assertNum++;
-                        if (command.getNum() == null) {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
 
-            if (existsFlg) {
-                if (command.getNum() == null) {
-                    commandResult.setMessage(MessageManager.getInstance().getMessage(
-                            BasicMessages.BASIC_INF_0001, command.getValue()));
-                    commandResult.setAssertStatus(AssertStatus.OK);
-                    commandResult.setActual("指定テキストファイルに、指定した文字列が含まれている");
-                } else {
-                    if (assertNum == command.getNum()) {
-                        commandResult.setMessage(MessageManager.getInstance().getMessage(
-                                BasicMessages.BASIC_INF_0001, command.getValue()));
-                        commandResult.setAssertStatus(AssertStatus.OK);
-                        commandResult.setActual(
-                                String.format("指定テキストファイルに、指定した文字列が%s回含まれている", command.getNum()));
-                    } else {
-                        commandResult.setMessage(MessageManager.getInstance().getMessage(
-                                BasicMessages.BASIC_ERR_9012, command.getNum(), command.getValue()));
-                        commandResult.setAssertStatus(AssertStatus.OK);
-                        commandResult.setActual(
-                                String.format("指定テキストファイルに、指定した文字列が%s回含まれていることを期待したが、実際は%s回であった", command.getNum(), assertNum));
-                    }
-                }
-            } else {
+            if (!existsFlg) {
                 commandResult.setMessage(MessageManager.getInstance().getMessage(
                         BasicMessages.BASIC_ERR_9002, command.getValue()));
                 commandResult.setAssertStatus(AssertStatus.NG);
                 commandResult.setActual("指定テキストファイルに、指定した文字列が含まれていない");
+            } else {
+                commandResult.setMessage(MessageManager.getInstance().getMessage(
+                        BasicMessages.BASIC_INF_0001, command.getValue()));
+                commandResult.setAssertStatus(AssertStatus.OK);
+                commandResult.setActual("指定テキストファイルに、指定した文字列が含まれている");
             }
 
 

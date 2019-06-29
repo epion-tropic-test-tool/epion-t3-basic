@@ -1,8 +1,14 @@
 t3: 1.0
 #####################################
+# 対象言語
+#####################################
+languages:
+  - ja_JP
+#####################################
 # カスタム機能定義
 #####################################
 info:
+  labelName: Basic
   name: basic
   customPackage: com.epion_t3.basic
   summary:
@@ -936,24 +942,16 @@ commands:
       - order: 1
         summary:
           - lang: ja_JP
-            contents: "「${target}」の中に「${value}」を含むことを「${num}」回確認。"
+            contents: 「${target}」の中に「${value}」を含むことを確認。
     function:
       - order: 1
         summary:
           - lang: ja_JP
-            contents: "指定したテキストファイル中に任意の文字列が含まれていることを確認します。"
+            contents: 指定したテキストファイル中に任意の文字列が含まれていることを確認します。
       - order: 2
         summary:
           - lang: ja_JP
-            contents: "対象とするテキストファイルはあらかじめエビデンスとして保存されている必要があります。"
-      - order: 3
-        summary:
-          - lang: ja_JP
-            contents: "任意の文字列が指定個数含まれていることを確認できます。確認回数として `num` を指定しない場合は最低1回含まれることを確認します。"
-      - order: 4
-        summary:
-          - lang: ja_JP
-            contents: "確認回数は、数が一致しなければエラーとなります。"
+            contents: 対象とするテキストファイルはあらかじめエビデンスとして保存されている必要があります。
     structure:
       - order: 1
         name: id
@@ -1001,14 +999,7 @@ commands:
         type: string
         summary:
           - lang: ja_JP
-            contents: "含まれていることを確認する値"
-      - order: 7
-        name: num
-        required: false
-        type: number
-        summary:
-          - lang: ja_JP
-            contents: "含まれていることを確認する回数"
+            contents: 含まれていることを確認する値
   ##########################
   # AssertNotExistsStringInText
   ##########################
