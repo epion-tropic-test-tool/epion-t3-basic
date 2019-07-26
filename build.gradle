@@ -34,6 +34,10 @@ repositories {
     jcenter()
 }
 
+configurations {
+    devtoolsGenerator
+}
+
 dependencies {
 
     // Core Library
@@ -44,6 +48,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.6'
 
     testCompile 'junit:junit:4.12'
+
+    // devtools
+    devtoolsGenerator 'com.epion_t3:epion-t3-devtools-generator:0.0.1'
 
 }
 
@@ -144,4 +151,15 @@ install {
             }
         }
     }
+}
+
+task devtoolsGenerate(type: JavaExec) {
+    main = "com.epion_t3.devtools.app.Application"
+    classpath = configurations.devtoolsGenerator
+    args = [
+            '-t',
+            "${projectDir}/src/main/resources/et3_basic_spec_config.yaml",
+            '-d',
+            "${projectDir}"
+    ]
 }
