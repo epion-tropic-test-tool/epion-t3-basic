@@ -22,6 +22,230 @@ info:
     - lang: en_US
       contents: It provides interface and driver functions as core functions.
 #####################################
+# Flow定義
+#####################################
+flows:
+  ##########################
+  # CommandExecute
+  ##########################
+  - id: CommandExecute
+    summary:
+      - lang: ja_JP
+        contents: コマンドを実行します。
+      - lang: ja_JP
+        contents: 単純にコマンドを実行するのみの最も基本的なFlowです。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${ref}」を実行します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定されたコマンドを実行します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 同一シナリオファイルに存在するコマンドを実行します。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: 他のシナリオファイルに存在するコマンドも実行できます。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CommandExecute」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: ref
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 実行するコマンドの指定
+        description:
+          - lang: ja_JP
+            contents: 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+  ##########################
+  # Branch
+  ##########################
+  - id: Branch
+    summary:
+      - lang: ja_JP
+        contents: シナリオ中で分岐を行います。
+      - lang: ja_JP
+        contents: 任意の条件式を判定して分岐を行います。
+      - lang: ja_JP
+        contents: 条件は、評価の結果明示的に真偽を出せるものが対象となります。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${condition}」を評価し真である場合に「${trueRef}」を実行します。偽である場合に「${falseRef}」を実行します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: シナリオ中で分岐を行います。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 任意の条件式を判定して分岐を行います。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: 条件は、評価の結果明示的に真偽を出せるものが対象となります。
+      - order: 4
+        summary:
+          - lang: ja_JP
+            contents: 条件式には変数が利用可能です。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「Branch」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: condition
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 判定する条件式
+        description:
+          - lang: ja_JP
+            contents: 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+      - order: 5
+        name: trueRef
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 条件式の判定結果が真の場合に実行するコマンドの指定
+        description:
+          - lang: ja_JP
+            contents: 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+      - order: 6
+        name: falseRef
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 条件式の判定結果が偽の場合に実行するコマンドの指定
+        description:
+          - lang: ja_JP
+            contents: 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+  ##########################
+  # ReadFileIterate
+  ##########################
+  - id: ReadFileIterate
+    summary:
+      - lang: ja_JP
+        contents: ファイルを読み込んで、１行毎にループ処理を行います。
+      - lang: ja_JP
+        contents: テキストやCSVといったファイルに情報を記載し、処理を繰り返したい場合に有効利用できます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」を読み込み１行毎にループ処理を行います。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: ファイルを読み込んで、１行毎にループ処理を行います。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「Branch」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 読み込む対象のファイルパス
+      - order: 5
+        name: fileType
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: ファイルの種別を指定
+      - order: 6
+        name: encoding
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: ファイルのエンコーディングを指定
+      - order: 7
+        name: lineSeparator
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 改行コードを指定
+      - order: 8
+        name: wrapstring
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 囲い文字列
+#####################################
 # コマンド定義
 #####################################
 commands:
