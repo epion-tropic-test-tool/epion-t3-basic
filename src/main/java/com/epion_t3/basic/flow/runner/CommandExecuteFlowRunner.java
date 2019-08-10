@@ -1,5 +1,6 @@
 package com.epion_t3.basic.flow.runner;
 
+import com.epion_t3.basic.flow.model.CommandExecuteFlow;
 import com.epion_t3.core.command.logging.bean.CommandLog;
 import com.epion_t3.core.command.logging.holder.CommandLoggingHolder;
 import com.epion_t3.core.command.resolver.impl.CommandRunnerResolverImpl;
@@ -17,8 +18,7 @@ import com.epion_t3.core.common.util.BindUtils;
 import com.epion_t3.core.common.util.ErrorUtils;
 import com.epion_t3.core.common.util.IDUtils;
 import com.epion_t3.core.exception.CommandNotFoundException;
-import com.epion_t3.core.flow.model.CommandExecuteFlow;
-import com.epion_t3.core.flow.model.FlowResult;
+import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractFlowRunner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;

@@ -1,13 +1,13 @@
 package com.epion_t3.basic.flow.runner;
 
+import com.epion_t3.basic.flow.model.BranchFlow;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
 import com.epion_t3.core.common.context.ExecuteContext;
 import com.epion_t3.core.common.type.FlowResultStatus;
 import com.epion_t3.core.exception.SystemException;
-import com.epion_t3.core.flow.model.BranchFlow;
-import com.epion_t3.core.flow.model.FlowResult;
+import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractFlowRunner;
 import com.epion_t3.core.message.impl.CoreMessages;
 import org.slf4j.Logger;

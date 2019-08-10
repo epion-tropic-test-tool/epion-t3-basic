@@ -1,13 +1,13 @@
 package com.epion_t3.basic.flow.runner;
 
+import com.epion_t3.basic.flow.model.ReadTextFileIterateFlow;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.bean.scenario.Flow;
 import com.epion_t3.core.common.context.Context;
 import com.epion_t3.core.common.context.ExecuteContext;
 import com.epion_t3.core.exception.SystemException;
-import com.epion_t3.core.flow.model.FlowResult;
-import com.epion_t3.core.flow.model.ReadTextFileIterateFlow;
+import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.resolver.impl.FlowRunnerResolverImpl;
 import com.epion_t3.core.flow.runner.FlowRunner;
 import com.epion_t3.core.flow.runner.impl.AbstractFlowRunner;

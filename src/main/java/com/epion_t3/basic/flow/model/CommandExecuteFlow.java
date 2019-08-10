@@ -2,7 +2,7 @@ package com.epion_t3.basic.flow.model;
 
 import com.epion_t3.core.common.annotation.FlowDefinition;
 import com.epion_t3.core.common.bean.scenario.Flow;
-import com.epion_t3.core.flow.runner.impl.CommandExecuteFlowRunner;
+import com.epion_t3.basic.flow.runner.CommandExecuteFlowRunner;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.bval.constraints.NotEmpty;
