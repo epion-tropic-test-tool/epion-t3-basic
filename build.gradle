@@ -19,6 +19,9 @@ ext {
     group 'com.epion_t3'
     version "${versionMajor}.${versionMinor}.${versionPatch}"
 
+    // カスタムパッケージ名
+    customPackageName = 'basic'
+
     // Document
     siteUrl = 'https://docs.epion-t3.com'
 
@@ -159,7 +162,7 @@ task devtoolsGenerate(type: JavaExec) {
     classpath = configurations.devtoolsGenerator
     args = [
             '-t',
-            "${projectDir}/src/main/resources/et3_basic_spec_config.yaml",
+            "${projectDir}/src/main/resources/et3_${customPackageName}_spec_config.yaml",
             '-d',
             "${projectDir}"
     ]
