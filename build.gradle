@@ -63,8 +63,8 @@ tasks.withType(Javadoc) {
 
 // Java
 tasks.withType(JavaCompile) {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
+    sourceCompatibility = 11
+    targetCompatibility = 11
     it.options.encoding = 'UTF-8'
 }
 
@@ -153,6 +153,7 @@ install {
     }
 }
 
+// epion-t3 出力ツール定義
 task devtoolsGenerate(type: JavaExec) {
     main = "com.epion_t3.devtools.app.Application"
     classpath = configurations.devtoolsGenerator
