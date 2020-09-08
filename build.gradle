@@ -6,6 +6,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
+    id "com.diffplug.gradle.spotless" version "3.26.1"
     id "com.jfrog.bintray" version "1.8.4"
 }
 
@@ -13,7 +14,7 @@ ext {
     // バージョン定義
     versionMajor = 0
     versionMinor = 0
-    versionPatch = 1
+    versionPatch = 2
 
     // アーティファクト関連
     group 'com.epion_t3'
@@ -45,6 +46,9 @@ dependencies {
 
     // Core Library
     api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.1'
+
+    // Commons
+    implementation group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
 
     // For Develop
     compileOnly 'org.projectlombok:lombok:1.18.6'
@@ -108,6 +112,15 @@ codeCoverageReport.dependsOn {
     subprojects*.test
 }
 
+spotless {
+    java {
+        enforceCheck = true
+        licenseHeaderFile rootProject.file('./formatter/LICENSE')
+        eclipse().configFile rootProject.file('./formatter/formatter.xml')
+        lineEndings 'UNIX'
+    }
+}
+
 // Library Publish
 bintray {
     user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
@@ -164,6 +177,10 @@ task devtoolsGenerate(type: JavaExec) {
             '-t',
             "${projectDir}/src/main/resources/et3_${customPackageName}_spec_config.yaml",
             '-d',
-            "${projectDir}"
+            "${projectDir}",
+            "-m",
+            "${projectDir}/src/main/resources",
+            "-j",
+            "${projectDir}/src/main/java/"
     ]
 }

@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.CommandExecuteFlow;
@@ -46,11 +47,8 @@ public class CommandExecuteFlowRunner
      * {@inheritDoc}
      */
     @Override
-    protected FlowResult execute(
-            Context context, ExecuteContext executeContext,
-            ExecuteScenario executeScenario,
-            ExecuteFlow executeFlow,
-            CommandExecuteFlow flow, Logger logger) {
+    protected FlowResult execute(Context context, ExecuteContext executeContext, ExecuteScenario executeScenario,
+            ExecuteFlow executeFlow, CommandExecuteFlow flow, Logger logger) {
 
         // コマンド識別子
         String fqcn = flow.getRef();
@@ -81,49 +79,24 @@ public class CommandExecuteFlowRunner
         try {
 
             // プロセス開始ログ出力
-            outputStartCommandLog(
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            outputStartCommandLog(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // シナリオスコープ変数の設定
-            settingFlowVariables(
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            settingFlowVariables(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンド解決
             String commandId = executeCommand.getCommand().getCommand();
 
             // コマンド実行クラスを解決
-            CommandRunner runner = CommandRunnerResolverImpl.getInstance().getCommandRunner(
-                    commandId,
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            CommandRunner runner = CommandRunnerResolverImpl.getInstance()
+                    .getCommandRunner(commandId, context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // 変数バインド
-            bind(
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            bind(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンド実行
-            runner.execute(executeCommand.getCommand(),
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand,
-                    LoggerFactory.getLogger("ProcessLog"));
+            runner.execute(executeCommand.getCommand(), context, executeContext, executeScenario, executeFlow,
+                    executeCommand, LoggerFactory.getLogger("ProcessLog"));
 
             // プロセス成功
             executeCommand.getCommandResult().setStatus(CommandStatus.SUCCESS);
@@ -146,12 +119,7 @@ public class CommandExecuteFlowRunner
         } finally {
 
             // 掃除
-            cleanFlowVariables(
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            cleanFlowVariables(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // シナリオ実行終了時間を設定
             executeCommand.setEnd(LocalDateTime.now());
@@ -160,12 +128,7 @@ public class CommandExecuteFlowRunner
             executeCommand.setDuration(Duration.between(executeCommand.getStart(), executeCommand.getEnd()));
 
             // コマンド終了ログ出力
-            outputEndCommandLog(
-                    context,
-                    executeContext,
-                    executeScenario,
-                    executeFlow,
-                    executeCommand);
+            outputEndCommandLog(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンドのログを収集
             List<CommandLog> commandLogs = SerializationUtils.clone(CommandLoggingHolder.get());
@@ -187,82 +150,62 @@ public class CommandExecuteFlowRunner
      * @param executeScenario
      * @param executeCommand
      */
-    private void bind(final Context context,
-                      final ExecuteContext executeContext,
-                      final ExecuteScenario executeScenario,
-                      final ExecuteFlow executeFlow,
-                      final ExecuteCommand executeCommand) {
+    private void bind(final Context context, final ExecuteContext executeContext, final ExecuteScenario executeScenario,
+            final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
 
         final Map<String, String> profiles = new ConcurrentHashMap<>();
 
         if (StringUtils.isNotEmpty(context.getOption().getProfile())) {
             // プロファイルを抽出
-            Arrays.stream(context.getOption().getProfile().split(","))
-                    .forEach(x -> {
-                        if (context.getOriginal().getProfiles().containsKey(x)) {
-                            profiles.putAll(context.getOriginal().getProfiles().get(x));
-                        } else {
+            Arrays.stream(context.getOption().getProfile().split(",")).forEach(x -> {
+                if (context.getOriginal().getProfiles().containsKey(x)) {
+                    profiles.putAll(context.getOriginal().getProfiles().get(x));
+                } else {
 
-                        }
-                    });
+                }
+            });
         }
 
-        BindUtils.getInstance().bind(
-                executeCommand.getCommand(),
-                profiles,
-                executeContext.getGlobalVariables(),
-                executeScenario.getScenarioVariables(),
-                executeFlow.getFlowVariables());
+        BindUtils.getInstance()
+                .bind(executeCommand.getCommand(), profiles, executeContext.getGlobalVariables(),
+                        executeScenario.getScenarioVariables(), executeFlow.getFlowVariables());
     }
 
     /**
-     * Flowスコープの変数を設定する.
-     * プロセス実行時に指定を行うべきFlowスコープ変数の設定処理.
+     * Flowスコープの変数を設定する. プロセス実行時に指定を行うべきFlowスコープ変数の設定処理.
      *
      * @param context
      * @param scenario
      * @param executeCommand
      */
-    private void settingFlowVariables(final Context context,
-                                      final ExecuteContext executeContext,
-                                      final ExecuteScenario scenario,
-                                      final ExecuteFlow executeFlow,
-                                      final ExecuteCommand executeCommand) {
+    private void settingFlowVariables(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario scenario, final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
 
         // 現在の処理コマンドのID
-        executeFlow.getFlowVariables().put
-                (FlowScopeVariables.CURRENT_COMMAND.getName(),
-                        executeCommand.getCommand().getId());
+        executeFlow.getFlowVariables()
+                .put(FlowScopeVariables.CURRENT_COMMAND.getName(), executeCommand.getCommand().getId());
 
         // 現在の処理コマンドの実行ID
-        executeFlow.getFlowVariables().put(
-                FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName(),
-                executeCommand.getExecuteId());
+        executeFlow.getFlowVariables()
+                .put(FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName(), executeCommand.getExecuteId());
     }
 
     /**
-     * シナリオスコープの変数を掃除する.
-     * プロセス実行時にのみ指定すべきシナリオスコープの変数を確実に除去するための処理.
+     * シナリオスコープの変数を掃除する. プロセス実行時にのみ指定すべきシナリオスコープの変数を確実に除去するための処理.
      *
      * @param context
      * @param scenario
      * @param executeFlow
      * @param executeCommand
      */
-    private void cleanFlowVariables(
-            final Context context,
-            final ExecuteContext executeContext,
-            final ExecuteScenario scenario,
-            final ExecuteFlow executeFlow,
-            final ExecuteCommand executeCommand) {
+    private void cleanFlowVariables(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario scenario, final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
 
         // 現在の処理コマンドのID
-        executeFlow.getFlowVariables().remove
-                (FlowScopeVariables.CURRENT_COMMAND.getName());
+        executeFlow.getFlowVariables().remove(FlowScopeVariables.CURRENT_COMMAND.getName());
 
         // 現在の処理プロセスの実行ID
-        executeFlow.getFlowVariables().remove(
-                FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName());
+        executeFlow.getFlowVariables().remove(FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName());
     }
 
     /**
@@ -273,12 +216,8 @@ public class CommandExecuteFlowRunner
      * @param executeFlow
      * @param executeCommand
      */
-    protected void outputStartCommandLog(
-            final Context context,
-            final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario,
-            final ExecuteFlow executeFlow,
-            final ExecuteCommand executeCommand) {
+    protected void outputStartCommandLog(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
         log.info("■ Start Command ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}",
                 executeScenario.getInfo().getId(), executeCommand.getCommand().getId(), executeCommand.getExecuteId());
     }
@@ -290,25 +229,24 @@ public class CommandExecuteFlowRunner
      * @param executeScenario
      * @param executeCommand
      */
-    protected void outputEndCommandLog(
-            final Context context,
-            final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario,
-            final ExecuteFlow executeFlow,
-            final ExecuteCommand executeCommand) {
+    protected void outputEndCommandLog(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
         if (executeCommand.getCommandResult().getStatus() == CommandStatus.SUCCESS) {
-            //sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.info("■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+            // sb.append("\n--------------------------------------------------------------------------------------\n");
+            log.info(
+                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
                     executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
                     executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
         } else if (executeCommand.getCommandResult().getStatus() == CommandStatus.ERROR) {
-            //sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.error("■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+            // sb.append("\n--------------------------------------------------------------------------------------\n");
+            log.error(
+                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
                     executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
                     executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
         } else {
-            //sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.warn("■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+            // sb.append("\n--------------------------------------------------------------------------------------\n");
+            log.warn(
+                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
                     executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
                     executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
         }

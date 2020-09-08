@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.Sleep;
@@ -19,9 +20,7 @@ public class SleepRunner extends AbstractCommandRunner<Sleep> {
      * {@inheritDoc}
      */
     @Override
-    public CommandResult execute(
-            Sleep command,
-            Logger logger) throws Exception {
+    public CommandResult execute(Sleep command, Logger logger) throws Exception {
 
         if (StringUtils.isEmpty(command.getValue())) {
             throw new SystemException(BasicMessages.BASIC_ERR_9003);

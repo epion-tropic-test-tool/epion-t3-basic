@@ -1,5 +1,5 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.model;
-
 
 import com.epion_t3.basic.command.runner.AssertNotExistsStringInTextRunner;
 import com.epion_t3.core.common.annotation.CommandDefinition;
@@ -9,9 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@CommandDefinition(id = "AssertNotExistsStringInText",
-        runner = AssertNotExistsStringInTextRunner.class,
-        assertCommand = true)
+@CommandDefinition(id = "AssertNotExistsStringInText", runner = AssertNotExistsStringInTextRunner.class, assertCommand = true)
 public class AssertNotExistsStringInText extends Command {
 
     /**
@@ -23,6 +21,5 @@ public class AssertNotExistsStringInText extends Command {
      * 読み込みエンコーディング.
      */
     private String encoding = "UTF-8";
-
 
 }

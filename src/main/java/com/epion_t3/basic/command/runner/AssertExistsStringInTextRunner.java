@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.AssertExistsStringInText;
@@ -20,9 +21,7 @@ import java.util.regex.Pattern;
 public class AssertExistsStringInTextRunner extends AbstractCommandRunner<AssertExistsStringInText> {
 
     @Override
-    public CommandResult execute(
-            AssertExistsStringInText command,
-            Logger logger) throws Exception {
+    public CommandResult execute(AssertExistsStringInText command, Logger logger) throws Exception {
 
         AssertCommandResult commandResult = AssertCommandResult.getSuccess();
         commandResult.setExpected("指定テキストファイルに、指定した文字列が含まれている");
@@ -54,17 +53,16 @@ public class AssertExistsStringInTextRunner extends AbstractCommandRunner<Assert
             }
 
             if (!existsFlg) {
-                commandResult.setMessage(MessageManager.getInstance().getMessage(
-                        BasicMessages.BASIC_ERR_9002, command.getValue()));
+                commandResult.setMessage(
+                        MessageManager.getInstance().getMessage(BasicMessages.BASIC_ERR_9002, command.getValue()));
                 commandResult.setAssertStatus(AssertStatus.NG);
                 commandResult.setActual("指定テキストファイルに、指定した文字列が含まれていない");
             } else {
-                commandResult.setMessage(MessageManager.getInstance().getMessage(
-                        BasicMessages.BASIC_INF_0001, command.getValue()));
+                commandResult.setMessage(
+                        MessageManager.getInstance().getMessage(BasicMessages.BASIC_INF_0001, command.getValue()));
                 commandResult.setAssertStatus(AssertStatus.OK);
                 commandResult.setActual("指定テキストファイルに、指定した文字列が含まれている");
             }
-
 
         } catch (IOException e) {
             throw new SystemException(BasicMessages.BASIC_ERR_9008, targetFile.toString());

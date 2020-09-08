@@ -1,5 +1,5 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.model;
-
 
 import com.epion_t3.core.common.annotation.FlowDefinition;
 import com.epion_t3.core.flow.model.IterateFlow;

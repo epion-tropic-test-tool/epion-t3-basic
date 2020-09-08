@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.model;
 
 import com.epion_t3.basic.command.runner.StringConcatRunner;
@@ -16,9 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-@CommandDefinition(
-        id = "StringConcat",
-        runner = StringConcatRunner.class)
+@CommandDefinition(id = "StringConcat", runner = StringConcatRunner.class)
 public class StringConcat extends Command {
 
     @NotEmpty

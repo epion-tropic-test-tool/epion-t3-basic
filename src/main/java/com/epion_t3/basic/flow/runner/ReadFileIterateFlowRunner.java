@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.ReadTextFileIterateFlow;
@@ -26,24 +27,15 @@ import java.util.List;
  * @author takashno
  */
 public class ReadFileIterateFlowRunner
-        extends AbstractFlowRunner<
-        ExecuteContext,
-        ExecuteScenario,
-        ExecuteFlow,
-        ReadTextFileIterateFlow> {
+        extends AbstractFlowRunner<ExecuteContext, ExecuteScenario, ExecuteFlow, ReadTextFileIterateFlow> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected FlowResult execute(
-            final Context context,
-            final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario,
-            final ExecuteFlow executeFlow,
-            final ReadTextFileIterateFlow flow,
+    protected FlowResult execute(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final ReadTextFileIterateFlow flow,
             final Logger logger) {
-
 
         Path target = Paths.get(flow.getTarget());
 
@@ -75,11 +67,7 @@ public class ReadFileIterateFlowRunner
             for (Flow child : flow.getChildren()) {
 
                 FlowRunner flowRunner = FlowRunnerResolverImpl.getInstance().getFlowRunner(child.getType());
-                flowRunner.execute(context,
-                        executeContext,
-                        executeScenario,
-                        child,
-                        logger);
+                flowRunner.execute(context, executeContext, executeScenario, child, logger);
             }
         }
 

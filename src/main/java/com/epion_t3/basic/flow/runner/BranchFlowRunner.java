@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.BranchFlow;
@@ -19,27 +20,17 @@ import javax.script.ScriptException;
 /**
  * 条件分岐を判断するためのFlowRunner.
  * <p>
- * シナリオに記載された任意のJavaScript式を評価し、
- * その結果をもとに、どのFlowへ実行するべきかを判定する.
+ * シナリオに記載された任意のJavaScript式を評価し、 その結果をもとに、どのFlowへ実行するべきかを判定する.
  * </p>
  *
  * @author takashno
  */
-public class BranchFlowRunner extends AbstractFlowRunner<
-        ExecuteContext,
-        ExecuteScenario,
-        ExecuteFlow,
-        BranchFlow> {
+public class BranchFlowRunner extends AbstractFlowRunner<ExecuteContext, ExecuteScenario, ExecuteFlow, BranchFlow> {
 
     @Override
-    protected FlowResult execute(
-            final Context context,
-            final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario,
-            final ExecuteFlow executeFlow,
-            final BranchFlow flow,
+    protected FlowResult execute(final Context context, final ExecuteContext executeContext,
+            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final BranchFlow flow,
             final Logger logger) {
-
 
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("JavaScript");

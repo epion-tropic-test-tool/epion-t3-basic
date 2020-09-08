@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.AddDate;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 
 import java.util.Calendar;
 import java.util.Date;
-
 
 public class AddDateRunner extends AbstractCommandRunner<AddDate> {
 
