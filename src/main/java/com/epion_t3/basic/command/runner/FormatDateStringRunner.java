@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.FormatDateString;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 public class FormatDateStringRunner extends AbstractCommandRunner<FormatDateString> {
 

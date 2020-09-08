@@ -32,6 +32,7 @@ ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提
 |[FileCopy](#FileCopy)|指定されたファイルをコピーします。  |||
 |[Sleep](#Sleep)|指定された時間休止します。  |||
 |[AddDate](#AddDate)|日付に対して指定した日付を足します。足した結果を変数に設定します。  |||
+|[ExecuteLocalCommand](#ExecuteLocalCommand)|本ツールが実行されているマシンのローカルコマンドを同期実行します。  ||X|
 |[CreateUUID](#CreateUUID)|UUIDを作成します。  |||
 |[FormatDateString](#FormatDateString)|日付を指定されたフォーマットの文字列に変換します。  |||
 |[ConsoleInput](#ConsoleInput)|ユーザーのコンソール入力を行うための機能です。自動テストでは利用用途がありませんが、動作確認時にには有効です。  |||
@@ -228,6 +229,37 @@ commands :
 
 ```
 
+------
+
+### ExecuteLocalCommand
+本ツールが実行されているマシンのローカルコマンドを同期実行します。
+#### Command Type
+- Assert : No
+- Evidence : __Yes__
+
+#### Functions
+- 本ツールが実行されているマシンのローカルコマンドを同期実行します。
+- 実行ファイル及び引数を指定することができます。
+- 引数には変数バインドを指定することができます。
+- 実行時間には制限（タイムアウト）を設けることができます。省略した場合「60000」を制限とします。
+- 標準出力及びエラー出力はエビデンスとして保存されます。
+- 正常として扱う終了コードを指定できます。省略した場合「0」を正常とします。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「EexecuteLocalCommand」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 実行する実行形式ファイルもしくはコマンドを指定します。
+  args : 引数を指定したい場合は指定します。
+  timeout : 実行時間の制限（タイムアウト）の値を設定（ミリ秒）します。
+  successExitCodes : 正常終了とする終了コードを指定します。
+
+```
+
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
 ------
 
 ### CreateUUID
@@ -433,13 +465,15 @@ Basic Command output messages.
 
 |MessageID|MessageContents|
 |:---|:---|
-|com.epion_t3.basic.err.9008|対象のファイルの読み込みに失敗しました.パス：{0}|
-|com.epion_t3.basic.err.9009|本コマンドはjava.util.Dateを扱うためのコマンドです.変数に格納されているものは型が異なります.|
 |com.epion_t3.basic.err.9010|フォーマット後の格納先変数の指定は必須です.|
 |com.epion_t3.basic.inf.0001|指定パターンに合致する文字列が含まれています.指定パターン:{0}|
+|com.epion_t3.basic.err.9008|対象のファイルの読み込みに失敗しました.パス：{0}|
+|com.epion_t3.basic.err.9009|本コマンドはjava.util.Dateを扱うためのコマンドです.変数に格納されているものは型が異なります.|
 |com.epion_t3.basic.err.9011|日付演算後の格納先変数の指定は必須です.|
 |com.epion_t3.basic.err.9001|参照する変数のスコープが不正です.スコープ:{0}|
+|com.epion_t3.basic.err.9012|ローカルコマンド実行でエラーが発生しました.|
 |com.epion_t3.basic.err.9002|指定パターンに合致する文字列が含まれていません.指定パターン:{0}|
+|com.epion_t3.basic.err.9013|ローカルコマンド実行でタイムアウトが発生しました.|
 |com.epion_t3.basic.err.9003|値（value）は必須です.|
 |com.epion_t3.basic.err.9004|値（value）は数値で指定してください.|
 |com.epion_t3.basic.err.9005|対象（target）は必須です.|

@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.SetVariable;
@@ -14,9 +15,7 @@ import org.slf4j.Logger;
 public class SetVariableRunner extends AbstractCommandRunner<SetVariable> {
 
     @Override
-    public CommandResult execute(
-            final SetVariable command,
-            final Logger logger) throws Exception {
+    public CommandResult execute(final SetVariable command, final Logger logger) throws Exception {
 
         // 対象必須
         if (StringUtils.isEmpty(command.getTarget())) {

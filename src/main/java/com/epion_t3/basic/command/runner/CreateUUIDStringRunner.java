@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.CreateUUIDString;
@@ -9,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.UUID;
-
 
 public class CreateUUIDStringRunner extends AbstractCommandRunner<CreateUUIDString> {
 

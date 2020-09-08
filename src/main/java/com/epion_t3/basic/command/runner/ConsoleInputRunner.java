@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.ConsoleInput;
@@ -10,8 +11,7 @@ import org.slf4j.Logger;
 import java.io.*;
 
 /**
- * コンソール入力コマンド実行クラス.
- * ユーザからのコンソール入力を受付、入力された文字列をシナリオスコープの変数に設定する.
+ * コンソール入力コマンド実行クラス. ユーザからのコンソール入力を受付、入力された文字列をシナリオスコープの変数に設定する.
  *
  * @author takashno
  */
@@ -21,8 +21,7 @@ public class ConsoleInputRunner extends AbstractCommandRunner<ConsoleInput> {
      * {@inheritDoc}
      */
     @Override
-    public CommandResult execute(final ConsoleInput command,
-                                 final Logger logger) throws Exception {
+    public CommandResult execute(final ConsoleInput command, final Logger logger) throws Exception {
 
         Console c = System.console();
         if (c != null) {

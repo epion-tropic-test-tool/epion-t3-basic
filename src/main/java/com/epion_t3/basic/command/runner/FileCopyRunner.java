@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.FileCopy;
@@ -22,8 +23,7 @@ public class FileCopyRunner extends AbstractCommandRunner<FileCopy> {
      * @throws Exception
      */
     @Override
-    public CommandResult execute(final FileCopy command,
-                                 final Logger logger) throws Exception {
+    public CommandResult execute(final FileCopy command, final Logger logger) throws Exception {
         Path from = Paths.get(command.getFrom());
         try (OutputStream os = new FileOutputStream(command.getTo())) {
             Files.copy(from, os);

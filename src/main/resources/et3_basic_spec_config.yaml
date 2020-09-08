@@ -1294,6 +1294,107 @@ commands:
         summary:
           - lang: ja_JP
             contents: 含まれないことを確認する値
+  ##########################
+  # ExecuteLocalCommand
+  ##########################
+  - id: ExecuteLocalCommand
+    assertCommand: false
+    evidenceCommand: true
+    summary:
+      - lang: ja_JP
+        contents: 本ツールが実行されているマシンのローカルコマンドを同期実行します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」を引数「${value}」で実行。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 本ツールが実行されているマシンのローカルコマンドを同期実行します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 実行ファイル及び引数を指定することができます。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: 引数には変数バインドを指定することができます。
+      - order: 4
+        summary:
+          - lang: ja_JP
+            contents: 実行時間には制限（タイムアウト）を設けることができます。省略した場合「60000」を制限とします。
+      - order: 5
+        summary:
+          - lang: ja_JP
+            contents: 標準出力及びエラー出力はエビデンスとして保存されます。
+      - order: 6
+        summary:
+          - lang: ja_JP
+            contents: 正常として扱う終了コードを指定できます。省略した場合「0」を正常とします。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「EexecuteLocalCommand」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "実行する実行形式ファイルもしくはコマンドを指定します。"
+        description:
+          - lang: ja_JP
+            contents: "変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。"
+      - order: 6
+        name: args
+        required: false
+        type: array
+        summary:
+          - lang: ja_JP
+            contents: "引数を指定したい場合は指定します。"
+      - order: 7
+        name: timeout
+        required: false
+        type: number
+        summary:
+          - lang: ja_JP
+            contents: "実行時間の制限（タイムアウト）の値を設定（ミリ秒）します。"
+      - order: 8
+        name: successExitCodes
+        required: false
+        type: array
+        summary:
+          - lang: ja_JP
+            contents: "正常終了とする終了コードを指定します。"
 #####################################
 # メッセージ定義
 #####################################
@@ -1346,3 +1447,11 @@ messages:
     message:
       - lang: ja_JP
         contents: "日付演算後の格納先変数の指定は必須です."
+  - id: com.epion_t3.basic.err.9012
+    message:
+      - lang: ja_JP
+        contents: "ローカルコマンド実行でエラーが発生しました."
+  - id: com.epion_t3.basic.err.9013
+    message:
+      - lang: ja_JP
+        contents: "ローカルコマンド実行でタイムアウトが発生しました."
