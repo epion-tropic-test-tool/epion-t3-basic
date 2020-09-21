@@ -19,14 +19,18 @@ import com.epion_t3.core.common.util.BindUtils;
 import com.epion_t3.core.common.util.ErrorUtils;
 import com.epion_t3.core.common.util.IDUtils;
 import com.epion_t3.core.exception.CommandNotFoundException;
+import com.epion_t3.core.exception.SystemException;
 import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractFlowRunner;
+import com.epion_t3.core.message.impl.CoreMessages;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -161,10 +165,15 @@ public class CommandExecuteFlowRunner
                 if (context.getOriginal().getProfiles().containsKey(x)) {
                     profiles.putAll(context.getOriginal().getProfiles().get(x));
                 } else {
-
+                    log.warn("not exists option profile -> {}", x);
                 }
             });
         }
+
+        executeFlow.getFlowVariables()
+                .entrySet()
+                .stream()
+                .forEach(e -> profiles.put(e.getKey(), e.getValue().toString()));
 
         BindUtils.getInstance()
                 .bind(executeCommand.getCommand(), profiles, executeContext.getGlobalVariables(),
@@ -188,6 +197,12 @@ public class CommandExecuteFlowRunner
         // 現在の処理コマンドの実行ID
         executeFlow.getFlowVariables()
                 .put(FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName(), executeCommand.getExecuteId());
+
+        // 現在の処理コマンドの格納パス（文字列）
+        executeFlow.getFlowVariables()
+                .put(FlowScopeVariables.CURRENT_COMMAND_DIR.getName(),
+                        getCommandBelongScenarioDirectory(context, executeCommand));
+
     }
 
     /**
@@ -206,6 +221,10 @@ public class CommandExecuteFlowRunner
 
         // 現在の処理プロセスの実行ID
         executeFlow.getFlowVariables().remove(FlowScopeVariables.CURRENT_COMMAND_EXECUTE_ID.getName());
+
+        // 現在の処理コマンドの格納パス（文字列）
+        executeFlow.getFlowVariables().remove(FlowScopeVariables.CURRENT_COMMAND_DIR.getName());
+
     }
 
     /**
@@ -251,6 +270,29 @@ public class CommandExecuteFlowRunner
                     executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
         }
 
+    }
+
+    /**
+     * 実行中のコマンドが属するシナリオ格納ディレクトリを取得する.
+     * コマンドに定義されているファイル等を参照する場合には、このメソッドで解決したパスからの相対パスを利用する.
+     *
+     * @return シナリオ配置パス
+     */
+    protected String getCommandBelongScenarioDirectory(Context context, ExecuteCommand executeCommand) {
+        // シナリオ識別子はシステムで投入する値のため、存在しないことは不正
+        String belongScenarioId = IDUtils.getInstance().extractBelongScenarioIdFromFqcn(executeCommand.getFqcn());
+        if (StringUtils.isEmpty(belongScenarioId)) {
+            throw new SystemException(CoreMessages.CORE_ERR_0018, executeCommand.getFqcn());
+        }
+        if (context.getOriginal().getScenarioPlacePaths().containsKey(belongScenarioId)) {
+            Path belongScenarioPath = context.getOriginal().getScenarioPlacePaths().get(belongScenarioId);
+            if (Files.notExists(belongScenarioPath)) {
+                throw new SystemException(CoreMessages.CORE_ERR_0017, belongScenarioId.toString());
+            }
+            return belongScenarioPath.toString();
+        } else {
+            throw new SystemException(CoreMessages.CORE_ERR_0016, belongScenarioId);
+        }
     }
 
 }
