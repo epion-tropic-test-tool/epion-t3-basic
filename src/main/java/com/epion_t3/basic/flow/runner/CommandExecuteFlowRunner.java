@@ -2,6 +2,7 @@
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.CommandExecuteFlow;
+import com.epion_t3.core.command.bean.AssertCommandResult;
 import com.epion_t3.core.command.logging.bean.CommandLog;
 import com.epion_t3.core.command.logging.holder.CommandLoggingHolder;
 import com.epion_t3.core.command.resolver.impl.CommandRunnerResolverImpl;
@@ -251,25 +252,48 @@ public class CommandExecuteFlowRunner
     protected void outputEndCommandLog(final Context context, final ExecuteContext executeContext,
             final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final ExecuteCommand executeCommand) {
         if (executeCommand.getCommandResult().getStatus() == CommandStatus.SUCCESS) {
-            // sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.info(
-                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
-                    executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
-                    executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            if (executeCommand.isAssertCommand()) {
+                log.info(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}, Assert Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name(),
+                        ((AssertCommandResult) executeCommand.getCommandResult()).getAssertStatus().name());
+            } else {
+                log.info(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            }
         } else if (executeCommand.getCommandResult().getStatus() == CommandStatus.ERROR) {
-            // sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.error(
-                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
-                    executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
-                    executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            if (executeCommand.isAssertCommand()) {
+                log.error(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}, Assert Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name(),
+                        ((AssertCommandResult) executeCommand.getCommandResult()).getAssertStatus().name());
+            } else {
+                log.error(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            }
         } else {
-            // sb.append("\n--------------------------------------------------------------------------------------\n");
-            log.warn(
-                    "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
-                    executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
-                    executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            if (executeCommand.isAssertCommand()) {
+                log.warn(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}, Assert Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name(),
+                        ((AssertCommandResult) executeCommand.getCommandResult()).getAssertStatus().name());
+            } else {
+                log.warn(
+                        "■ End Command   ■ Scenario ID : {}, Command ID : {}, Execute Command ID : {}, Process Status : {}",
+                        executeScenario.getInfo().getId(), executeCommand.getCommand().getId(),
+                        executeCommand.getExecuteId(), executeCommand.getCommandResult().getStatus().name());
+            }
         }
-
+        if (context.getOption().getConsoleReport() && executeCommand.getError() != null) {
+            log.error("Error Occurred...", executeCommand.getError());
+        }
     }
 
     /**
