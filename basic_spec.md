@@ -30,6 +30,7 @@ ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提
 |[CreateNowDate](#CreateNowDate)|現在日付を作成して変数に設定します。  |||
 |[AssertNotExistsStringInText](#AssertNotExistsStringInText)|指定したテキストファイルの中に指定した文字列を含まれないことを確認するためのコマンドです。ログファイルに対する確認などに利用可能です。  |X||
 |[FileCopy](#FileCopy)|指定されたファイルをコピーします。  |||
+|[ExceptionOccurred](#ExceptionOccurred)|Exceptionを意図的に発生させます。  ツールの動作確認などでの利用を想定しています。  |||
 |[Sleep](#Sleep)|指定された時間休止します。  |||
 |[AddDate](#AddDate)|日付に対して指定した日付を足します。足した結果を変数に設定します。  |||
 |[ExecuteLocalCommand](#ExecuteLocalCommand)|本ツールが実行されているマシンのローカルコマンドを同期実行します。  ||X|
@@ -37,6 +38,7 @@ ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提
 |[FormatDateString](#FormatDateString)|日付を指定されたフォーマットの文字列に変換します。  |||
 |[ConsoleInput](#ConsoleInput)|ユーザーのコンソール入力を行うための機能です。自動テストでは利用用途がありませんが、動作確認時にには有効です。  |||
 |[FileGet](#FileGet)|ファイルシステムを利用したファイル取得機能です。 ローカルテスト時等でしか役に立たないかもしれないですが、初期ツール導入時にご活用ください。  ||X|
+|[AssertExceptionOccurred](#AssertExceptionOccurred)|アサートコマンド時のExceptionを意図的に発生させます。  ツールの動作確認などでの利用を想定しています。  |||
 |[CreateUUIDString](#CreateUUIDString)|UUIDを作成し、文字列に変換します。  |||
 |[SetVariable](#SetVariable)|任意のスコープ変数に対して値を設定します。  設定する値自体も変数のバインドが利用できますが、基本的には固定値で利用されることを想定してます。  |||
 |[DirectoryCreate](#DirectoryCreate)|ディレクトリの作成を行います。  |||
@@ -183,6 +185,31 @@ commands :
 
 1. コピー元の対象の指定します。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
 1. コピー先の対象の指定します。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
+------
+
+### ExceptionOccurred
+Exceptionを意図的に発生させます。ツールの動作確認などでの利用を想定しています。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- Exceptionを意図的に発生させます。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「ExceptionOccurred」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 設定不要。
+  value : 設定不要。
+
+```
+
+1. 設定不要。
+1. 設定不要。
 ------
 
 ### Sleep
@@ -357,6 +384,31 @@ commands :
 ```
 
 1. 取得するファイルパスを絶対パスにて指定します。変数のバインドにも対応していますので、絶対パスのベースパス等の解決にも利用可能です。
+------
+
+### AssertExceptionOccurred
+アサートコマンド時のExceptionを意図的に発生させます。ツールの動作確認などでの利用を想定しています。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- アサートコマンド時のExceptionを意図的に発生させます。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「AssertExceptionOccurred」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 設定不要。
+  value : 設定不要。
+
+```
+
+1. 設定不要。
+1. 設定不要。
 ------
 
 ### CreateUUIDString

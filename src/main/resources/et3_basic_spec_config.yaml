@@ -1395,6 +1395,174 @@ commands:
         summary:
           - lang: ja_JP
             contents: "正常終了とする終了コードを指定します。"
+  ##########################
+  # ExceptionOccurred
+  ##########################
+  - id: ExceptionOccurred
+    summary:
+      - lang: ja_JP
+        contents: Exceptionを意図的に発生させます。
+      - lang: ja_JP
+        contents: ツールの動作確認などでの利用を想定しています。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: Exceptionを発生させます。
+          - lang: en_US
+            contents: Exception Occurred.
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: Exceptionを意図的に発生させます。
+          - lang: en_US
+            contents: Intentionally raise an Exception.
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「ExceptionOccurred」固定
+          - lang: en_US
+            contents: Fix Value ExceptionOccurred
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 5
+        name: target
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 設定不要。
+          - lang: en_US
+            contents: Should be not setting value.
+        description:
+          - lang: ja_JP
+            contents: 設定不要。
+      - order: 6
+        name: value
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 設定不要。
+          - lang: en_US
+            contents: Should be not setting value.
+        description:
+          - lang: ja_JP
+            contents: 設定不要。
+  ##########################
+  # AssertExceptionOccurred
+  ##########################
+  - id: AssertExceptionOccurred
+    summary:
+      - lang: ja_JP
+        contents: アサートコマンド時のExceptionを意図的に発生させます。
+      - lang: ja_JP
+        contents: ツールの動作確認などでの利用を想定しています。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: Exceptionを発生させます。
+          - lang: en_US
+            contents: Exception Occurred.
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: アサートコマンド時のExceptionを意図的に発生させます。
+          - lang: en_US
+            contents: Intentionally raise an Exception.
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「AssertExceptionOccurred」固定
+          - lang: en_US
+            contents: Fix Value AssertExceptionOccurred
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 5
+        name: target
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 設定不要。
+          - lang: en_US
+            contents: Should be not setting value.
+        description:
+          - lang: ja_JP
+            contents: 設定不要。
+      - order: 6
+        name: value
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 設定不要。
+          - lang: en_US
+            contents: Should be not setting value.
+        description:
+          - lang: ja_JP
+            contents: 設定不要。
 #####################################
 # メッセージ定義
 #####################################
