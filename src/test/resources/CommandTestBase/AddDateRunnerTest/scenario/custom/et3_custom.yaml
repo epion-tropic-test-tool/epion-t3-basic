@@ -1,0 +1,5 @@
+t3: '1.0'
+customs:
+  packages:
+    core: "com.epion_t3.core"
+    basic: "com.epion_t3.basic"
