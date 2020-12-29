@@ -1,0 +1,27 @@
+t3: '1.0'
+################################################
+# 基本情報定義
+################################################
+info:
+  id: "test_normal_001"
+  version: 1.0.0
+  summary: "AddDateのテスト用"
+  description: "AddDateのテスト用"
+################################################
+# Flow定義
+################################################
+flows:
+  - id: "flow-001"
+    type: "CommandExecute"
+    ref: "basic-test-command-001"
+################################################
+# コマンド定義
+################################################
+commands:
+  - id: "basic-test-command-001"
+    summary: "AddDateTest."
+    description: "AddDateTest."
+    command: "AddDate"
+    target: "global.target_date"
+    value: "1"
+    addedTarget: "scenario.added_date"
