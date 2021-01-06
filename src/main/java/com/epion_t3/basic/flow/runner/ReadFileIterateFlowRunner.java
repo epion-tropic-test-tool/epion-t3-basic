@@ -67,7 +67,7 @@ public class ReadFileIterateFlowRunner
             for (Flow child : flow.getChildren()) {
 
                 FlowRunner flowRunner = FlowRunnerResolverImpl.getInstance().getFlowRunner(child.getType());
-                flowRunner.execute(context, executeContext, executeScenario, child, logger);
+                flowRunner.execute(context, executeContext, executeScenario, child);
             }
         }
 

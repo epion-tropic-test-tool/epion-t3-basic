@@ -245,6 +245,59 @@ flows:
         summary:
           - lang: ja_JP
             contents: 囲い文字列
+  ##########################
+  # CounterIterate
+  ##########################
+  - id: CounterIterate
+    summary:
+      - lang: ja_JP
+        contents: 指定されたカウンタ分ループ処理を行います。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」回数分ループを実行します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: ファイルを読み込んで、１行毎にループ処理を行います。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CounterIterate」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: from
+        required: true
+        type: number
+        summary:
+          - lang: ja_JP
+            contents: ループ回数下限
+      - order: 5
+        name: to
+        required: true
+        type: number
+        summary:
+          - lang: ja_JP
+            contents: ループ回数上限
 #####################################
 # コマンド定義
 #####################################

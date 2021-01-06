@@ -44,6 +44,8 @@ public class FormatDateStringRunner extends AbstractCommandRunner<FormatDateStri
 
         setVariable(command.getFormattedTarget(), formattedString);
 
+        logger.info(collectLoggingMarker(), "formatted string -> {}", formattedString);
+
         return CommandResult.getSuccess();
     }
 }

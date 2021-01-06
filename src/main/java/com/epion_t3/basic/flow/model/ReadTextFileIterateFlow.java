@@ -2,7 +2,7 @@
 package com.epion_t3.basic.flow.model;
 
 import com.epion_t3.core.common.annotation.FlowDefinition;
-import com.epion_t3.core.flow.model.IterateFlow;
+import com.epion_t3.core.common.bean.scenario.IterateFlow;
 import com.epion_t3.basic.flow.runner.ReadFileIterateFlowRunner;
 import lombok.Getter;
 import lombok.Setter;

@@ -29,6 +29,8 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,10 +74,12 @@ public class CommandExecuteFlowRunner
             throw new CommandNotFoundException(flow.getRef());
         }
 
+        Command cloneCommand = SerializationUtils.clone(command);
+
         // コマンド実行情報を生成
         ExecuteCommand executeCommand = new ExecuteCommand();
         executeFlow.getCommands().add(executeCommand);
-        executeCommand.setCommand(command);
+        executeCommand.setCommand(cloneCommand);
         executeCommand.setFqcn(fqcn);
 
         // シナリオ実行開始時間を設定
@@ -101,7 +105,7 @@ public class CommandExecuteFlowRunner
 
             // コマンド実行
             runner.execute(executeCommand.getCommand(), context, executeContext, executeScenario, executeFlow,
-                    executeCommand, LoggerFactory.getLogger("ProcessLog"));
+                    executeCommand, logger);
 
             // プロセス成功
             executeCommand.getCommandResult().setStatus(CommandStatus.SUCCESS);
