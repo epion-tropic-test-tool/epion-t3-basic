@@ -1,9 +1,9 @@
 /* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.model;
 
-import com.epion_t3.core.common.annotation.FlowDefinition;
-import com.epion_t3.core.common.bean.scenario.IterateFlow;
 import com.epion_t3.basic.flow.runner.ReadFileIterateFlowRunner;
+import com.epion_t3.core.common.annotation.FlowDefinition;
+import com.epion_t3.core.common.bean.scenario.HasChildrenFlow;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @FlowDefinition(id = "ReadFileIterate", runner = ReadFileIterateFlowRunner.class)
-public class ReadTextFileIterateFlow extends IterateFlow {
+public class ReadTextFileIterateFlow extends HasChildrenFlow {
 
     /**
      * デフォルトシリアルバージョンUID.

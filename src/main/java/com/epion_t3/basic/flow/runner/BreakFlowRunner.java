@@ -1,7 +1,6 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
-import com.epion_t3.basic.flow.model.BranchFlow;
+import com.epion_t3.basic.flow.model.BreakFlow;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
@@ -17,19 +16,17 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 /**
- * 条件分岐を判断するためのFlowRunner.
- * <p>
- * シナリオに記載された任意のJavaScript式を評価し、 その結果をもとに、どのFlowへ実行するべきかを判定する.
- * </p>
- *
- * @author takashno
+ * {@link BreakFlow}の実行処理.
  */
-public class BranchFlowRunner extends AbstractSimpleFlowRunner<BranchFlow> {
+public class BreakFlowRunner extends AbstractSimpleFlowRunner<BreakFlow> {
 
+    /**
+     * {@link BreakFlow}
+     */
     @Override
     protected FlowResult execute(final Context context, final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final BranchFlow flow,
-            final Logger logger) {
+                                 final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final BreakFlow flow,
+                                 final Logger logger) {
 
         var factory = new ScriptEngineManager();
         var engine = factory.getEngineByName("JavaScript");
@@ -41,9 +38,12 @@ public class BranchFlowRunner extends AbstractSimpleFlowRunner<BranchFlow> {
         try {
             var scriptResult = engine.eval(flow.getCondition());
             if (scriptResult != null && Boolean.class.isAssignableFrom(scriptResult.getClass())) {
-                var flowResult = new FlowResult();
-                flowResult.setStatus(FlowResultStatus.CHOICE);
-                flowResult.setChoiceId((Boolean) scriptResult ? flow.getTrueRef() : flow.getFalseRef());
+                var evaluationResult = (Boolean) scriptResult;
+                logger.info(collectLoggingMarker(), "condition evaluation result -> {}", evaluationResult);
+                var flowResult = FlowResult.getDefault();
+                if ((Boolean) scriptResult) {
+                    flowResult.setStatus(FlowResultStatus.BREAK);
+                }
                 return flowResult;
             } else {
                 // TODO:Error

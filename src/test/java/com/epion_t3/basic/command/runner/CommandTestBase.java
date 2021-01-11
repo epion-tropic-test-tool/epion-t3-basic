@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.core.common.context.Context;
@@ -26,13 +27,16 @@ public class CommandTestBase {
 
     /**
      * テストケース毎の初期処理を行います.
+     * 
      * @param testInfo テスト情報
      * @param tempDir 仮ディレクトリ
      */
     @BeforeEach
     void beforeEachTest(TestInfo testInfo, @TempDir Path tempDir) {
         context = new Context();
-        context.getOption().setRootPath(System.getProperty("user.dir") + File.separator + "src/test/resources/CommandTestBase/"+ testInfo.getTestClass().get().getSimpleName() + "/scenario");
+        context.getOption()
+                .setRootPath(System.getProperty("user.dir") + File.separator + "src/test/resources/CommandTestBase/"
+                        + testInfo.getTestClass().get().getSimpleName() + "/scenario");
         context.getOption().setTarget(testInfo.getTestMethod().get().getName());
         context.getOption().setResultRootPath(tempDir.toAbsolutePath().toString());
         context.getOption().setNoreport(true);

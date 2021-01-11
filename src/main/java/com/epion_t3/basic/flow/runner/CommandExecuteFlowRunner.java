@@ -4,6 +4,7 @@ package com.epion_t3.basic.flow.runner;
 import com.epion_t3.basic.flow.model.CommandExecuteFlow;
 import com.epion_t3.core.command.bean.AssertCommandResult;
 import com.epion_t3.core.command.logging.bean.CommandLog;
+import com.epion_t3.core.command.logging.factory.CommandLoggerFactory;
 import com.epion_t3.core.command.logging.holder.CommandLoggingHolder;
 import com.epion_t3.core.command.resolver.impl.CommandRunnerResolverImpl;
 import com.epion_t3.core.command.runner.CommandRunner;
@@ -22,15 +23,12 @@ import com.epion_t3.core.common.util.IDUtils;
 import com.epion_t3.core.exception.CommandNotFoundException;
 import com.epion_t3.core.exception.SystemException;
 import com.epion_t3.core.flow.bean.FlowResult;
-import com.epion_t3.core.flow.runner.impl.AbstractFlowRunner;
+import com.epion_t3.core.flow.runner.impl.AbstractSimpleFlowRunner;
 import com.epion_t3.core.message.impl.CoreMessages;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,7 +46,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class CommandExecuteFlowRunner
-        extends AbstractFlowRunner<ExecuteContext, ExecuteScenario, ExecuteFlow, CommandExecuteFlow> {
+        extends AbstractSimpleFlowRunner<CommandExecuteFlow> {
 
     /**
      * {@inheritDoc}
@@ -74,13 +72,17 @@ public class CommandExecuteFlowRunner
             throw new CommandNotFoundException(flow.getRef());
         }
 
-        Command cloneCommand = SerializationUtils.clone(command);
+        // コマンドは使い回されるため、bindなどを1度行うと再利用ができなくなるためクローンして利用する
+        var cloneCommand = SerializationUtils.clone(command);
 
         // コマンド実行情報を生成
-        ExecuteCommand executeCommand = new ExecuteCommand();
+        var executeCommand = new ExecuteCommand();
         executeFlow.getCommands().add(executeCommand);
         executeCommand.setCommand(cloneCommand);
         executeCommand.setFqcn(fqcn);
+
+        // Logger生成
+        var commandLogger = CommandLoggerFactory.getInstance().getCommandLogger(this.getClass());
 
         // シナリオ実行開始時間を設定
         executeCommand.setStart(LocalDateTime.now());
@@ -105,7 +107,7 @@ public class CommandExecuteFlowRunner
 
             // コマンド実行
             runner.execute(executeCommand.getCommand(), context, executeContext, executeScenario, executeFlow,
-                    executeCommand, logger);
+                    executeCommand, commandLogger);
 
             // プロセス成功
             executeCommand.getCommandResult().setStatus(CommandStatus.SUCCESS);
@@ -140,11 +142,11 @@ public class CommandExecuteFlowRunner
             outputEndCommandLog(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンドのログを収集
-            List<CommandLog> commandLogs = SerializationUtils.clone(CommandLoggingHolder.get());
+            List<CommandLog> commandLogs = CommandLoggingHolder.get(executeCommand.getExecuteId().toString());
             executeCommand.setCommandLogs(commandLogs);
 
             // コマンドのログは収集し終えたらクリアする（ThreadLocalにて保持）
-            CommandLoggingHolder.clear();
+            CommandLoggingHolder.clear(executeCommand.getExecuteId().toString());
 
         }
 
