@@ -45,8 +45,8 @@ configurations {
 dependencies {
 
     // Core Library
-    //api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.2'
-    api project(":epion-t3-core-dev")
+    api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.2'
+    //api project(":epion-t3-core-dev")
 
     // Commons
     implementation group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
