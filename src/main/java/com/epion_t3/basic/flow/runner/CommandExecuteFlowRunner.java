@@ -96,10 +96,10 @@ public class CommandExecuteFlowRunner
             settingFlowVariables(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンド解決
-            String commandId = executeCommand.getCommand().getCommand();
+            var commandId = executeCommand.getCommand().getCommand();
 
             // コマンド実行クラスを解決
-            CommandRunner runner = CommandRunnerResolverImpl.getInstance()
+            var runner = CommandRunnerResolverImpl.getInstance()
                     .getCommandRunner(commandId, context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // 変数バインド
@@ -142,7 +142,7 @@ public class CommandExecuteFlowRunner
             outputEndCommandLog(context, executeContext, executeScenario, executeFlow, executeCommand);
 
             // コマンドのログを収集
-            List<CommandLog> commandLogs = CommandLoggingHolder.get(executeCommand.getExecuteId().toString());
+            var commandLogs = CommandLoggingHolder.get(executeCommand.getExecuteId().toString());
             executeCommand.setCommandLogs(commandLogs);
 
             // コマンドのログは収集し終えたらクリアする（ThreadLocalにて保持）
@@ -310,7 +310,7 @@ public class CommandExecuteFlowRunner
      */
     protected String getCommandBelongScenarioDirectory(Context context, ExecuteCommand executeCommand) {
         // シナリオ識別子はシステムで投入する値のため、存在しないことは不正
-        String belongScenarioId = IDUtils.getInstance().extractBelongScenarioIdFromFqcn(executeCommand.getFqcn());
+        var belongScenarioId = IDUtils.getInstance().extractBelongScenarioIdFromFqcn(executeCommand.getFqcn());
         if (StringUtils.isEmpty(belongScenarioId)) {
             throw new SystemException(CoreMessages.CORE_ERR_0018, executeCommand.getFqcn());
         }
