@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.command.runner;
 
 import com.epion_t3.basic.command.model.FormatDateString;
@@ -43,6 +43,8 @@ public class FormatDateStringRunner extends AbstractCommandRunner<FormatDateStri
         String formattedString = sdf.format(date);
 
         setVariable(command.getFormattedTarget(), formattedString);
+
+        logger.info(collectLoggingMarker(), "formatted string -> {}", formattedString);
 
         return CommandResult.getSuccess();
     }
