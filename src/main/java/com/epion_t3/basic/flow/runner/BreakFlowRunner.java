@@ -1,6 +1,8 @@
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.BreakFlow;
+import com.epion_t3.basic.messages.BasicMessages;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
@@ -9,7 +11,6 @@ import com.epion_t3.core.common.type.FlowResultStatus;
 import com.epion_t3.core.exception.SystemException;
 import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractSimpleFlowRunner;
-import com.epion_t3.core.message.impl.CoreMessages;
 import org.slf4j.Logger;
 
 import javax.script.ScriptEngineManager;
@@ -25,8 +26,8 @@ public class BreakFlowRunner extends AbstractSimpleFlowRunner<BreakFlow> {
      */
     @Override
     protected FlowResult execute(final Context context, final ExecuteContext executeContext,
-                                 final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final BreakFlow flow,
-                                 final Logger logger) {
+            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final BreakFlow flow,
+            final Logger logger) {
 
         var factory = new ScriptEngineManager();
         var engine = factory.getEngineByName("JavaScript");
@@ -46,8 +47,7 @@ public class BreakFlowRunner extends AbstractSimpleFlowRunner<BreakFlow> {
                 }
                 return flowResult;
             } else {
-                // TODO:Error
-                throw new SystemException(CoreMessages.CORE_ERR_0001);
+                throw new SystemException(BasicMessages.BASIC_ERR_9014);
             }
         } catch (ScriptException e) {
             throw new SystemException(e);

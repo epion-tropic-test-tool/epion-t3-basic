@@ -1,13 +1,11 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.CommandExecuteFlow;
 import com.epion_t3.core.command.bean.AssertCommandResult;
-import com.epion_t3.core.command.logging.bean.CommandLog;
 import com.epion_t3.core.command.logging.factory.CommandLoggerFactory;
 import com.epion_t3.core.command.logging.holder.CommandLoggingHolder;
 import com.epion_t3.core.command.resolver.impl.CommandRunnerResolverImpl;
-import com.epion_t3.core.command.runner.CommandRunner;
 import com.epion_t3.core.common.bean.ExecuteCommand;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
@@ -35,7 +33,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,8 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author takashno
  */
 @Slf4j
-public class CommandExecuteFlowRunner
-        extends AbstractSimpleFlowRunner<CommandExecuteFlow> {
+public class CommandExecuteFlowRunner extends AbstractSimpleFlowRunner<CommandExecuteFlow> {
 
     /**
      * {@inheritDoc}

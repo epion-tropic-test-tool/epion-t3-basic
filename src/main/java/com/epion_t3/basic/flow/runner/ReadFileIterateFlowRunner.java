@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.ReadTextFileIterateFlow;
@@ -22,11 +22,11 @@ import java.util.List;
  *
  * @author takashno
  */
-public class ReadFileIterateFlowRunner
-        extends AbstractSimpleIterateFlowRunner<ReadTextFileIterateFlow> {
+public class ReadFileIterateFlowRunner extends AbstractSimpleIterateFlowRunner<ReadTextFileIterateFlow> {
 
     @Override
-    protected Iterable resolveIterateTarget(Context context, ExecuteContext ExecuteContext, ExecuteScenario executeScenario, ExecuteFlow executeFlow, ReadTextFileIterateFlow flow, Logger logger) {
+    protected Iterable resolveIterateTarget(Context context, ExecuteContext ExecuteContext,
+            ExecuteScenario executeScenario, ExecuteFlow executeFlow, ReadTextFileIterateFlow flow, Logger logger) {
         Path target = Paths.get(flow.getTarget());
         if (!Files.exists(target)) {
             throw new SystemException("not found target File...");

@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.messages;
 
 import com.epion_t3.core.message.Messages;
@@ -39,6 +39,9 @@ public enum BasicMessages implements Messages {
 
     /** 値（value）は必須です. */
     BASIC_ERR_9003("com.epion_t3.basic.err.9003"),
+
+    /** 条件式が正しく評価できていません。評価結果が真偽値出ない場合があります。 */
+    BASIC_ERR_9014("com.epion_t3.basic.err.9014"),
 
     /** 値（value）は数値で指定してください. */
     BASIC_ERR_9004("com.epion_t3.basic.err.9004"),

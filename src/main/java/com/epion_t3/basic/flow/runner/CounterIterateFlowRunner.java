@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2020 Nozomu Takashima. */
+/* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
 import com.epion_t3.basic.flow.model.CounterIterateFlow;
@@ -15,9 +15,9 @@ public class CounterIterateFlowRunner extends AbstractSimpleIterateFlowRunner<Co
 
     @Override
     protected Iterable resolveIterateTarget(Context context, ExecuteContext executeContext,
-                                            ExecuteScenario executeScenario, ExecuteFlow executeFlow, CounterIterateFlow flow, Logger logger) {
+            ExecuteScenario executeScenario, ExecuteFlow executeFlow, CounterIterateFlow flow, Logger logger) {
         logger.info(collectLoggingMarker(), "from : {} -> to : {}", flow.getFrom(), flow.getTo());
-        var result = new ArrayList<>(flow.getTo()-flow.getFrom());
+        var result = new ArrayList<>(flow.getTo() - flow.getFrom());
         for (int i = flow.getFrom(); i < flow.getTo(); i++) {
             result.add(i);
         }

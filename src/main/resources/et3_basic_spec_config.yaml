@@ -92,8 +92,8 @@ flows:
       - lang: ja_JP
         contents: シナリオ中で分岐を行います。
       - lang: ja_JP
-        contents: 任意の条件式を判定して分岐を行います。
       - lang: ja_JP
+        contents: 任意の条件式を判定して分岐を行います。
         contents: 条件は、評価の結果明示的に真偽を出せるものが対象となります。
     testItem:
       - order: 1
@@ -1857,3 +1857,7 @@ messages:
     message:
       - lang: ja_JP
         contents: "ローカルコマンド実行でタイムアウトが発生しました."
+  - id: com.epion_t3.basic.err.9014
+    message:
+      - lang: ja_JP
+        contents: "条件式が正しく評価できていません。評価結果が真偽値出ない場合があります。"

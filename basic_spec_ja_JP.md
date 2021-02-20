@@ -29,14 +29,36 @@ ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提
 
 |Name|Summary|
 |:---|:---|
-|[Branch](#Branch)|シナリオ中で分岐を行います。  任意の条件式を判定して分岐を行います。  条件は、評価の結果明示的に真偽を出せるものが対象となります。  |
+|[CounterIterate](#CounterIterate)|指定されたカウンタ分ループ処理を行います。  |
+|[Branch](#Branch)|シナリオ中で分岐を行います。  Branch&#61;com.epion_t3.devtools.bean.FlowModel@469d003c  条件は、評価の結果明示的に真偽を出せるものが対象となります。  |
 |[ReadFileIterate](#ReadFileIterate)|ファイルを読み込んで、１行毎にループ処理を行います。  テキストやCSVといったファイルに情報を記載し、処理を繰り返したい場合に有効利用できます。  |
+|[Break](#Break)|シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。  子Flowのループを明示的に抜ける（break）するためのFlowです。  |
 |[CommandExecute](#CommandExecute)|コマンドを実行します。  単純にコマンドを実行するのみの最も基本的なFlowです。  |
+|[Continue](#Continue)|シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。  子Flowのループを明示的に次要素へ進める（continue）するためのFlowです。  |
+|[If](#If)|シナリオ中で分岐を行い、評価条件が真の場合に子Flowを実行します。  |
+
+------
+
+### CounterIterate
+指定されたカウンタ分ループ処理を行います。
+#### Functions
+- ファイルを読み込んで、１行毎にループ処理を行います。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「CounterIterate」固定
+  summary : Flowの概要（任意）
+  from : カウンタ始値
+  to : カウンタ終値
+
+```
 
 ------
 
 ### Branch
-シナリオ中で分岐を行います。任意の条件式を判定して分岐を行います。条件は、評価の結果明示的に真偽を出せるものが対象となります。
+シナリオ中で分岐を行います。Branch&#61;com.epion_t3.devtools.bean.FlowModel@469d003c条件は、評価の結果明示的に真偽を出せるものが対象となります。
 #### Functions
 - シナリオ中で分岐を行います。
 - 任意の条件式を判定して分岐を行います。
@@ -81,6 +103,25 @@ commands :
 
 ------
 
+### Break
+シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。子Flowのループを明示的に抜ける（break）するためのFlowです。
+#### Functions
+- シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。
+- 子Flowのループを明示的に抜ける（break）するためのFlowです。
+- このFlowが実行された場合、繰り返し処理を行うFlowは中断してループを抜けます。
+- 通常、このFlowは「If」と組み合わせて使うことで効果が出るものです。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「Break」固定
+  summary : Flowの概要（任意）
+
+```
+
+------
+
 ### CommandExecute
 コマンドを実行します。単純にコマンドを実行するのみの最も基本的なFlowです。
 #### Functions
@@ -98,6 +139,49 @@ commands :
 
 ```
 
+1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+------
+
+### Continue
+シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。子Flowのループを明示的に次要素へ進める（continue）するためのFlowです。
+#### Functions
+- シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。
+- 子Flowのループを明示的に次要素へ進める（continue）するためのFlowです。
+- このFlowが実行された場合、繰り返し処理を行うFlowは次の要素へループを進めます。同列の以降のFlow処理は行われません。
+- 通常、このFlowは「If」と組み合わせて使うことで効果が出るものです。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「Continue」固定
+  summary : Flowの概要（任意）
+
+```
+
+------
+
+### If
+シナリオ中で分岐を行い、評価条件が真の場合に子Flowを実行します。
+#### Functions
+- シナリオ中で分岐を行います。
+- 任意の条件式を判定して分岐を行います。
+- 条件は、評価の結果明示的に真偽を出せるものが対象となります。
+- 条件式には変数が利用可能です。
+- 条件式が真の場合に、子Flowを実行します。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「Branch」固定
+  summary : Flowの概要（任意）
+  condition : 判定する条件式
+  children : 条件式の判定結果が真の場合に実行するコマンドの指定
+
+```
+
+1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
 1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
 
 ## Command List
@@ -615,6 +699,7 @@ commands :
 |com.epion_t3.basic.err.9002|指定パターンに合致する文字列が含まれていません.指定パターン:{0}|
 |com.epion_t3.basic.err.9013|ローカルコマンド実行でタイムアウトが発生しました.|
 |com.epion_t3.basic.err.9003|値（value）は必須です.|
+|com.epion_t3.basic.err.9014|条件式が正しく評価できていません。評価結果が真偽値出ない場合があります。|
 |com.epion_t3.basic.err.9004|値（value）は数値で指定してください.|
 |com.epion_t3.basic.err.9005|対象（target）は必須です.|
 |com.epion_t3.basic.err.9006|ユーザー入力にてエラーが発生しました.|
