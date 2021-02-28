@@ -46,8 +46,14 @@ public enum BasicMessages implements Messages {
     /** 値（value）は数値で指定してください. */
     BASIC_ERR_9004("com.epion_t3.basic.err.9004"),
 
+    /** 対象の変数の値はint型の正数である必要があります。 */
+    BASIC_ERR_9015("com.epion_t3.basic.err.9015"),
+
     /** 対象（target）は必須です. */
     BASIC_ERR_9005("com.epion_t3.basic.err.9005"),
+
+    /** インクリメント幅の値はint型の正数である必要があります。 */
+    BASIC_ERR_9016("com.epion_t3.basic.err.9016"),
 
     /** ユーザー入力にてエラーが発生しました. */
     BASIC_ERR_9006("com.epion_t3.basic.err.9006"),

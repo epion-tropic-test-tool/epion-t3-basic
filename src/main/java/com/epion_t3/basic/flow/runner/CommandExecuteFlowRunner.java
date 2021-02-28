@@ -51,6 +51,9 @@ public class CommandExecuteFlowRunner extends AbstractSimpleFlowRunner<CommandEx
     protected FlowResult execute(Context context, ExecuteContext executeContext, ExecuteScenario executeScenario,
             ExecuteFlow executeFlow, CommandExecuteFlow flow, Logger logger) {
 
+        var flowResult = FlowResult.getDefault();
+        flowResult.setStatus(FlowStatus.RUNNING);
+
         // コマンド識別子
         String fqcn = flow.getRef();
 
@@ -109,7 +112,7 @@ public class CommandExecuteFlowRunner extends AbstractSimpleFlowRunner<CommandEx
             executeCommand.getCommandResult().setStatus(CommandStatus.SUCCESS);
 
             // Flow成功
-            executeFlow.setStatus(FlowStatus.SUCCESS);
+            flowResult.setStatus(FlowStatus.SUCCESS);
 
         } catch (Throwable t) {
 
@@ -120,8 +123,11 @@ public class CommandExecuteFlowRunner extends AbstractSimpleFlowRunner<CommandEx
 
             executeCommand.setStackTrace(ErrorUtils.getInstance().getStacktrace(t));
 
-            // プロセス失敗
+            // コマンド失敗
             executeCommand.getCommandResult().setStatus(CommandStatus.ERROR);
+
+            // コマンドが失敗した場合は、FlowResultとしても継続不可能と判断する
+            flowResult.setStatus(FlowStatus.FORCE_EXIT);
 
         } finally {
 
@@ -146,7 +152,7 @@ public class CommandExecuteFlowRunner extends AbstractSimpleFlowRunner<CommandEx
 
         }
 
-        return FlowResult.getDefault();
+        return flowResult;
 
     }
 

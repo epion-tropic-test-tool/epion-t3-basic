@@ -30,10 +30,12 @@ ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提
 |Name|Summary|
 |:---|:---|
 |[CounterIterate](#CounterIterate)|指定されたカウンタ分ループ処理を行います。  |
-|[Branch](#Branch)|シナリオ中で分岐を行います。  Branch&#61;com.epion_t3.devtools.bean.FlowModel@469d003c  条件は、評価の結果明示的に真偽を出せるものが対象となります。  |
+|[Branch](#Branch)|シナリオ中で分岐を行います。  任意の条件式を判定して分岐を行います。  条件は、評価の結果明示的に真偽を出せるものが対象となります。  |
 |[ReadFileIterate](#ReadFileIterate)|ファイルを読み込んで、１行毎にループ処理を行います。  テキストやCSVといったファイルに情報を記載し、処理を繰り返したい場合に有効利用できます。  |
 |[Break](#Break)|シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。  子Flowのループを明示的に抜ける（break）するためのFlowです。  |
+|[DoWhile](#DoWhile)|シナリオ中で繰り返し処理を行うFlowです。  指定された条件式が真である限り、実行し続けます。  |
 |[CommandExecute](#CommandExecute)|コマンドを実行します。  単純にコマンドを実行するのみの最も基本的なFlowです。  |
+|[While](#While)|シナリオ中で繰り返し処理を行うFlowです。  指定された条件式が真である限り、実行し続けます。  |
 |[Continue](#Continue)|シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。  子Flowのループを明示的に次要素へ進める（continue）するためのFlowです。  |
 |[If](#If)|シナリオ中で分岐を行い、評価条件が真の場合に子Flowを実行します。  |
 
@@ -58,7 +60,7 @@ commands :
 ------
 
 ### Branch
-シナリオ中で分岐を行います。Branch&#61;com.epion_t3.devtools.bean.FlowModel@469d003c条件は、評価の結果明示的に真偽を出せるものが対象となります。
+シナリオ中で分岐を行います。任意の条件式を判定して分岐を行います。条件は、評価の結果明示的に真偽を出せるものが対象となります。
 #### Functions
 - シナリオ中で分岐を行います。
 - 任意の条件式を判定して分岐を行います。
@@ -71,12 +73,13 @@ commands :
   id : FlowのID
   type : 「Branch」固定
   summary : Flowの概要（任意）
-  condition : 判定する条件式
+  condition : 判定する条件式（JavaScriptで指定）
   trueRef : 条件式の判定結果が真の場合に実行するコマンドの指定
   falseRef : 条件式の判定結果が偽の場合に実行するコマンドの指定
 
 ```
 
+1. 条件式は、JavaScriptで記載を行ってください。
 1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
 1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
 1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
@@ -117,9 +120,40 @@ commands :
   id : FlowのID
   type : 「Break」固定
   summary : Flowの概要（任意）
+  target : 対象のFlowIDを指定 # (1)
+  condition : 判定する条件式（JavaScriptで指定）
 
 ```
 
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+1. 条件式は、JavaScriptで記載を行ってください。
+1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+------
+
+### DoWhile
+シナリオ中で繰り返し処理を行うFlowです。指定された条件式が真である限り、実行し続けます。
+#### Functions
+- シナリオ中で繰り返し処理を行うFlowです。
+- 指定された条件式が真である限り、実行し続けます。
+- このWhileを抜けるためには、条件式が false となるか、子Flowが「Break」を実行するか、タイムアウトで指定した時間が経過するかのいずれかを満たす必要があります。
+- タイムアウトは、デフォルトが30秒（30000ms）となっています。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「DoWhile」固定
+  summary : Flowの概要（任意）
+  condition : 判定する条件式（JavaScriptで指定）
+  children : 条件式の判定結果が真の場合に実行するコマンドの指定
+  timeout : タイムアウト時間（ms）
+
+```
+
+1. 条件式は、JavaScriptで記載を行ってください。
+1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+1. タイムアウト時間は、デフォルトで30秒（30000ms）となります。
 ------
 
 ### CommandExecute
@@ -142,6 +176,32 @@ commands :
 1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
 ------
 
+### While
+シナリオ中で繰り返し処理を行うFlowです。指定された条件式が真である限り、実行し続けます。
+#### Functions
+- シナリオ中で繰り返し処理を行うFlowです。
+- 指定された条件式が真である限り、実行し続けます。
+- このWhileを抜けるためには、条件式が false となるか、子Flowが「Break」を実行するか、タイムアウトで指定した時間が経過するかのいずれかを満たす必要があります。
+- タイムアウトは、デフォルトが30秒（30000ms）となっています。
+
+#### Structure
+```yaml
+commands : 
+  id : FlowのID
+  type : 「While」固定
+  summary : Flowの概要（任意）
+  condition : 判定する条件式（JavaScriptで指定）
+  children : 条件式の判定結果が真の場合に実行するコマンドの指定
+  timeout : タイムアウト時間（ms）
+
+```
+
+1. 条件式は、JavaScriptで記載を行ってください。
+1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+1. タイムアウト時間は、デフォルトで30秒（30000ms）となります。
+------
+
 ### Continue
 シナリオ中で繰り返し処理を行うFlowの子Flowでの利用を想定したコマンドです。子Flowのループを明示的に次要素へ進める（continue）するためのFlowです。
 #### Functions
@@ -156,9 +216,14 @@ commands :
   id : FlowのID
   type : 「Continue」固定
   summary : Flowの概要（任意）
+  target : 対象のFlowIDを指定 # (1)
+  condition : 判定する条件式（JavaScriptで指定）
 
 ```
 
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+1. 条件式は、JavaScriptで記載を行ってください。
+1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
 ------
 
 ### If
@@ -174,13 +239,14 @@ commands :
 ```yaml
 commands : 
   id : FlowのID
-  type : 「Branch」固定
+  type : 「If」固定
   summary : Flowの概要（任意）
-  condition : 判定する条件式
+  condition : 判定する条件式（JavaScriptで指定）
   children : 条件式の判定結果が真の場合に実行するコマンドの指定
 
 ```
 
+1. 条件式は、JavaScriptで記載を行ってください。
 1. 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
 1. 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
 
@@ -197,7 +263,9 @@ commands :
 |[AssertNotExistsStringInText](#AssertNotExistsStringInText)|指定したテキストファイルの中に指定した文字列を含まれないことを確認するためのコマンドです。ログファイルに対する確認などに利用可能です。  |X||
 |[FileCopy](#FileCopy)|指定されたファイルをコピーします。  |||
 |[ExceptionOccurred](#ExceptionOccurred)|Exceptionを意図的に発生させます。  ツールの動作確認などでの利用を想定しています。  |||
+|[VariableEcho](#VariableEcho)|変数をログ出力します。  |||
 |[Sleep](#Sleep)|指定された時間休止します。  |||
+|[CounterIncrement](#CounterIncrement)|int型の正数をインクリメントします。  汎用的なカウンタとして利用出来ます。  |||
 |[AddDate](#AddDate)|日付に対して指定した日付を足します。足した結果を変数に設定します。  |||
 |[ExecuteLocalCommand](#ExecuteLocalCommand)|本ツールが実行されているマシンのローカルコマンドを同期実行します。  ||X|
 |[CreateUUID](#CreateUUID)|UUIDを作成します。  |||
@@ -378,6 +446,29 @@ commands :
 1. 設定不要。
 ------
 
+### VariableEcho
+変数をログ出力します。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- 変数をログ出力します。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「VariableEcho」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 対象の変数名を指定。
+
+```
+
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+------
+
 ### Sleep
 指定された時間休止します。
 #### Command Type
@@ -398,6 +489,31 @@ commands :
 
 ```
 
+------
+
+### CounterIncrement
+int型の正数をインクリメントします。汎用的なカウンタとして利用出来ます。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- int型の正数をインクリメントします。
+- インクリメント幅は任意に設定可能です。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「CounterIncrement」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 対象の変数名を指定。
+  value : インクリメント幅を指定します。int型の正数の数値である必要があります。
+
+```
+
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
 ------
 
 ### AddDate
@@ -701,6 +817,8 @@ commands :
 |com.epion_t3.basic.err.9003|値（value）は必須です.|
 |com.epion_t3.basic.err.9014|条件式が正しく評価できていません。評価結果が真偽値出ない場合があります。|
 |com.epion_t3.basic.err.9004|値（value）は数値で指定してください.|
+|com.epion_t3.basic.err.9015|対象の変数の値はint型の正数である必要があります。|
 |com.epion_t3.basic.err.9005|対象（target）は必須です.|
+|com.epion_t3.basic.err.9016|インクリメント幅の値はint型の正数である必要があります。|
 |com.epion_t3.basic.err.9006|ユーザー入力にてエラーが発生しました.|
 |com.epion_t3.basic.err.9007|対象のファイルが見つかりません.パス：{0}|

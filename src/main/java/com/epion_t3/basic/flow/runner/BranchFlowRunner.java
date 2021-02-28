@@ -6,7 +6,6 @@ import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
 import com.epion_t3.core.common.context.ExecuteContext;
-import com.epion_t3.core.common.type.FlowResultStatus;
 import com.epion_t3.core.exception.SystemException;
 import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractSimpleFlowRunner;
@@ -42,8 +41,8 @@ public class BranchFlowRunner extends AbstractSimpleFlowRunner<BranchFlow> {
             var scriptResult = engine.eval(flow.getCondition());
             if (scriptResult != null && Boolean.class.isAssignableFrom(scriptResult.getClass())) {
                 var flowResult = new FlowResult();
-                flowResult.setStatus(FlowResultStatus.CHOICE);
-                flowResult.setChoiceId((Boolean) scriptResult ? flow.getTrueRef() : flow.getFalseRef());
+//                flowResult.setStatus(FlowStatus.CHOICE);
+//                flowResult.setChoiceId((Boolean) scriptResult ? flow.getTrueRef() : flow.getFalseRef());
                 return flowResult;
             } else {
                 // TODO:Error

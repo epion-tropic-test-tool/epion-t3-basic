@@ -92,8 +92,8 @@ flows:
       - lang: ja_JP
         contents: シナリオ中で分岐を行います。
       - lang: ja_JP
-      - lang: ja_JP
         contents: 任意の条件式を判定して分岐を行います。
+      - lang: ja_JP
         contents: 条件は、評価の結果明示的に真偽を出せるものが対象となります。
     testItem:
       - order: 1
@@ -145,8 +145,10 @@ flows:
         type: string
         summary:
           - lang: ja_JP
-            contents: 判定する条件式
+            contents: 判定する条件式（JavaScriptで指定）
         description:
+          - lang: ja_JP
+            contents: 条件式は、JavaScriptで記載を行ってください。
           - lang: ja_JP
             contents: 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
       - order: 5
@@ -345,7 +347,7 @@ flows:
         type: string
         summary:
           - lang: ja_JP
-            contents: 「Branch」固定
+            contents: 「If」固定
       - order: 3
         name: summary
         required: false
@@ -359,8 +361,10 @@ flows:
         type: string
         summary:
           - lang: ja_JP
-            contents: 判定する条件式
+            contents: 判定する条件式（JavaScriptで指定）
         description:
+          - lang: ja_JP
+            contents: 条件式は、JavaScriptで記載を行ってください。
           - lang: ja_JP
             contents: 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
       - order: 5
@@ -426,6 +430,28 @@ flows:
         summary:
           - lang: ja_JP
             contents: Flowの概要（任意）
+      - order: 4
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "対象のFlowIDを指定 # (1)"
+        description:
+          - lang: ja_JP
+            contents: "変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。"
+      - order: 5
+        name: condition
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "判定する条件式（JavaScriptで指定）"
+        description:
+          - lang: ja_JP
+            contents: "条件式は、JavaScriptで記載を行ってください。"
+          - lang: ja_JP
+            contents: "判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。"
   ##########################
   # Continue
   ##########################
@@ -479,6 +505,198 @@ flows:
         summary:
           - lang: ja_JP
             contents: Flowの概要（任意）
+      - order: 4
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "対象のFlowIDを指定 # (1)"
+        description:
+          - lang: ja_JP
+            contents: "変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。"
+      - order: 5
+        name: condition
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "判定する条件式（JavaScriptで指定）"
+        description:
+          - lang: ja_JP
+            contents: "条件式は、JavaScriptで記載を行ってください。"
+          - lang: ja_JP
+            contents: "判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。"
+  ##########################
+  # While
+  ##########################
+  - id: While
+    summary:
+      - lang: ja_JP
+        contents: シナリオ中で繰り返し処理を行うFlowです。
+      - lang: ja_JP
+        contents: 指定された条件式が真である限り、実行し続けます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 条件「${condition}」が真である間、繰り返し子Flowを実行します。ただし、タイムアウトは「${timeout}ms」です。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: シナリオ中で繰り返し処理を行うFlowです。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 指定された条件式が真である限り、実行し続けます。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: このWhileを抜けるためには、条件式が false となるか、子Flowが「Break」を実行するか、タイムアウトで指定した時間が経過するかのいずれかを満たす必要があります。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: タイムアウトは、デフォルトが30秒（30000ms）となっています。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「While」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: condition
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 判定する条件式（JavaScriptで指定）
+        description:
+          - lang: ja_JP
+            contents: 条件式は、JavaScriptで記載を行ってください。
+          - lang: ja_JP
+            contents: 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+      - order: 5
+        name: children
+        required: true
+        type: object
+        summary:
+          - lang: ja_JP
+            contents: 条件式の判定結果が真の場合に実行するコマンドの指定
+        description:
+          - lang: ja_JP
+            contents: 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+      - order: 6
+        name: timeout
+        required: false
+        type: number
+        summary:
+          - lang: ja_JP
+            contents: タイムアウト時間（ms）
+        description:
+          - lang: ja_JP
+            contents: タイムアウト時間は、デフォルトで30秒（30000ms）となります。
+  ##########################
+  # DoWhile
+  ##########################
+  - id: DoWhile
+    summary:
+      - lang: ja_JP
+        contents: シナリオ中で繰り返し処理を行うFlowです。
+      - lang: ja_JP
+        contents: 指定された条件式が真である限り、実行し続けます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 条件「${condition}」が真である間、繰り返し子Flowを実行します。ただし、タイムアウトは「${timeout}ms」です。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: シナリオ中で繰り返し処理を行うFlowです。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 指定された条件式が真である限り、実行し続けます。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: このWhileを抜けるためには、条件式が false となるか、子Flowが「Break」を実行するか、タイムアウトで指定した時間が経過するかのいずれかを満たす必要があります。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: タイムアウトは、デフォルトが30秒（30000ms）となっています。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: FlowのID
+      - order: 2
+        name: type
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「DoWhile」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: Flowの概要（任意）
+      - order: 4
+        name: condition
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 判定する条件式（JavaScriptで指定）
+        description:
+          - lang: ja_JP
+            contents: 条件式は、JavaScriptで記載を行ってください。
+          - lang: ja_JP
+            contents: 判定する条件式には変数が利用可能です。様々な値をリアルタイムに利用して判定を行うことが可能となります。
+      - order: 5
+        name: children
+        required: true
+        type: object
+        summary:
+          - lang: ja_JP
+            contents: 条件式の判定結果が真の場合に実行するコマンドの指定
+        description:
+          - lang: ja_JP
+            contents: 同じシナリオ定義内に存在するコマンドを呼ぶ場合は、コマンドIDをそのまま指定します。別のシナリオ定義内に存在するコマンドを呼ぶ場合は、「対象シナリオファイルのinfo.id + @ + コマンドID」を指定します。
+      - order: 6
+        name: timeout
+        required: false
+        type: number
+        summary:
+          - lang: ja_JP
+            contents: タイムアウト時間（ms）
+        description:
+          - lang: ja_JP
+            contents: タイムアウト時間は、デフォルトで30秒（30000ms）となります。
 #####################################
 # コマンド定義
 #####################################
@@ -1797,6 +2015,133 @@ commands:
         description:
           - lang: ja_JP
             contents: 設定不要。
+  ##########################
+  # CounterIncrement
+  ##########################
+  - id: CounterIncrement
+    summary:
+      - lang: ja_JP
+        contents: int型の正数をインクリメントします。
+      - lang: ja_JP
+        contents: 汎用的なカウンタとして利用出来ます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: int型の正数「${target}」をインクリメントします。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: int型の正数をインクリメントします。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: インクリメント幅は任意に設定可能です。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CounterIncrement」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 対象の変数名を指定。
+        description:
+          - lang: ja_JP
+            contents: 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: インクリメント幅を指定します。int型の正数の数値である必要があります。
+  ##########################
+  # VariableEcho
+  ##########################
+  - id: VariableEcho
+    summary:
+      - lang: ja_JP
+        contents: 変数をログ出力します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 変数「${target}」をログ出力します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 変数をログ出力します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「VariableEcho」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 対象の変数名を指定。
+        description:
+          - lang: ja_JP
+            contents: 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
 #####################################
 # メッセージ定義
 #####################################
@@ -1861,3 +2206,12 @@ messages:
     message:
       - lang: ja_JP
         contents: "条件式が正しく評価できていません。評価結果が真偽値出ない場合があります。"
+  - id: com.epion_t3.basic.err.9015
+    message:
+      - lang: ja_JP
+        contents: "対象の変数の値はint型の正数である必要があります。"
+  - id: com.epion_t3.basic.err.9016
+    message:
+      - lang: ja_JP
+        contents: "インクリメント幅の値はint型の正数である必要があります。"
+

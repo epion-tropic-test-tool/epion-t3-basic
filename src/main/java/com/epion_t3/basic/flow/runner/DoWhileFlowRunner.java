@@ -1,34 +1,32 @@
 /* Copyright (c) 2017-2021 Nozomu Takashima. */
 package com.epion_t3.basic.flow.runner;
 
-import com.epion_t3.basic.flow.model.BreakFlow;
-import com.epion_t3.basic.flow.model.ContinueFlow;
+import com.epion_t3.basic.flow.model.DoWhileFlow;
 import com.epion_t3.basic.messages.BasicMessages;
 import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
 import com.epion_t3.core.common.context.ExecuteContext;
-import com.epion_t3.core.common.type.FlowStatus;
 import com.epion_t3.core.exception.SystemException;
-import com.epion_t3.core.flow.bean.FlowResult;
-import com.epion_t3.core.flow.runner.impl.AbstractSimpleFlowRunner;
+import com.epion_t3.core.flow.runner.impl.AbstractWhileFlowRunner;
+import lombok.NonNull;
 import org.slf4j.Logger;
 
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 /**
- * {@link ContinueFlow}の実行処理.
+ * {@link DoWhileFlow}の実行処理.
  */
-public class ContinueFlowRunner extends AbstractSimpleFlowRunner<ContinueFlow> {
+public class DoWhileFlowRunner extends AbstractWhileFlowRunner<DoWhileFlow> {
 
     /**
-     * {@link BreakFlow}
+     * {@inheritDoc}
      */
     @Override
-    protected FlowResult execute(final Context context, final ExecuteContext executeContext,
-            final ExecuteScenario executeScenario, final ExecuteFlow executeFlow, final ContinueFlow flow,
-            final Logger logger) {
+    protected boolean evaluation(@NonNull Context context, @NonNull ExecuteContext executeContext,
+            @NonNull ExecuteScenario executeScenario, @NonNull ExecuteFlow executeFlow, @NonNull DoWhileFlow flow,
+            @NonNull Logger logger) {
 
         var factory = new ScriptEngineManager();
         var engine = factory.getEngineByName("JavaScript");
@@ -40,20 +38,13 @@ public class ContinueFlowRunner extends AbstractSimpleFlowRunner<ContinueFlow> {
         try {
             var scriptResult = engine.eval(flow.getCondition());
             if (scriptResult != null && Boolean.class.isAssignableFrom(scriptResult.getClass())) {
-                var evaluationResult = (Boolean) scriptResult;
-                logger.info(collectLoggingMarker(), "condition evaluation result -> {}", evaluationResult);
-                var flowResult = FlowResult.getDefault();
-                if (evaluationResult) {
-                    flowResult.setStatus(FlowStatus.CONTINUE);
-                } else {
-                    flowResult.setStatus(FlowStatus.SUCCESS);
-                }
-                return flowResult;
+                return (boolean) scriptResult;
             } else {
                 throw new SystemException(BasicMessages.BASIC_ERR_9014);
             }
         } catch (ScriptException e) {
             throw new SystemException(e);
         }
+
     }
 }

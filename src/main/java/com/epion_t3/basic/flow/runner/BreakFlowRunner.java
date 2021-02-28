@@ -7,7 +7,7 @@ import com.epion_t3.core.common.bean.ExecuteFlow;
 import com.epion_t3.core.common.bean.ExecuteScenario;
 import com.epion_t3.core.common.context.Context;
 import com.epion_t3.core.common.context.ExecuteContext;
-import com.epion_t3.core.common.type.FlowResultStatus;
+import com.epion_t3.core.common.type.FlowStatus;
 import com.epion_t3.core.exception.SystemException;
 import com.epion_t3.core.flow.bean.FlowResult;
 import com.epion_t3.core.flow.runner.impl.AbstractSimpleFlowRunner;
@@ -43,7 +43,9 @@ public class BreakFlowRunner extends AbstractSimpleFlowRunner<BreakFlow> {
                 logger.info(collectLoggingMarker(), "condition evaluation result -> {}", evaluationResult);
                 var flowResult = FlowResult.getDefault();
                 if ((Boolean) scriptResult) {
-                    flowResult.setStatus(FlowResultStatus.BREAK);
+                    flowResult.setStatus(FlowStatus.BREAK);
+                } else {
+                    flowResult.setStatus(FlowStatus.SUCCESS);
                 }
                 return flowResult;
             } else {
