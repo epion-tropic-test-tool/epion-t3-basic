@@ -58,7 +58,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
 
     // devtools
-    devtoolsGenerator 'com.epion_t3:epion-t3-devtools-generator:0.0.2'
+    devtoolsGenerator 'com.epion_t3:epion-t3-devtools-generator:0.0.4'
 
 }
 

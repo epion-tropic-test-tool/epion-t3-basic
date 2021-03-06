@@ -74,7 +74,7 @@ public enum BasicMessages implements Messages {
     BASIC_ERR_9018("com.epion_t3.basic.err.9018");
 
     /** メッセージコード */
-    private String messageCode;
+    private final String messageCode;
 
     /**
      * プライベートコンストラクタ<br>
