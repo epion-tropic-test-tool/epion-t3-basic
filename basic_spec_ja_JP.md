@@ -264,6 +264,8 @@ commands :
 |[FileCopy](#FileCopy)|指定されたファイルをコピーします。  |||
 |[ExceptionOccurred](#ExceptionOccurred)|Exceptionを意図的に発生させます。  ツールの動作確認などでの利用を想定しています。  |||
 |[VariableEcho](#VariableEcho)|変数をログ出力します。  |||
+|[ExtractArrayValue](#ExtractArrayValue)|変数に設定されている配列から指定インデックスの値を取得し、変数に設定します。  |||
+|[StringSplit](#StringSplit)|変数の文字列を特定文字で分割して変数に設定しなおします。  |||
 |[Sleep](#Sleep)|指定された時間休止します。  |||
 |[CounterIncrement](#CounterIncrement)|int型の正数をインクリメントします。  汎用的なカウンタとして利用出来ます。  |||
 |[AddDate](#AddDate)|日付に対して指定した日付を足します。足した結果を変数に設定します。  |||
@@ -463,6 +465,55 @@ commands :
   summary : コマンドの概要（任意）
   description : コマンドの詳細（任意）
   target : 対象の変数名を指定。
+
+```
+
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+------
+
+### ExtractArrayValue
+変数に設定されている配列から指定インデックスの値を取得し、変数に設定します。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- 変数に設定されている配列から指定インデックスの値を取得し、変数に設定します。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「ExtractArrayValue」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 対象の変数名を指定。
+  value : 抽出後の変数名を指定。
+  index : 抽出するインデックスを指定。
+
+```
+
+1. 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+------
+
+### StringSplit
+変数の文字列を特定文字で分割して変数に設定しなおします。
+#### Command Type
+- Assert : No
+- Evidence : No
+
+#### Functions
+- 変数の文字列を特定文字で分割して変数に設定しなおします。
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「StringSplit」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 対象の変数名を指定。
+  value : 分割区切り文字列を指定します。
 
 ```
 
@@ -805,9 +856,11 @@ commands :
 
 |MessageID|MessageContents|
 |:---|:---|
+|com.epion_t3.basic.err.9020|指定されたインデックスが有効範囲にありません。インデックス：{0}|
 |com.epion_t3.basic.err.9010|フォーマット後の格納先変数の指定は必須です.|
 |com.epion_t3.basic.inf.0001|指定パターンに合致する文字列が含まれています.指定パターン:{0}|
 |com.epion_t3.basic.err.9008|対象のファイルの読み込みに失敗しました.パス：{0}|
+|com.epion_t3.basic.err.9019|変数は配列である必要があります。変数：{0}, タイプ：{1}|
 |com.epion_t3.basic.err.9009|本コマンドはjava.util.Dateを扱うためのコマンドです.変数に格納されているものは型が異なります.|
 |com.epion_t3.basic.err.9011|日付演算後の格納先変数の指定は必須です.|
 |com.epion_t3.basic.err.9001|参照する変数のスコープが不正です.スコープ:{0}|
@@ -821,4 +874,6 @@ commands :
 |com.epion_t3.basic.err.9005|対象（target）は必須です.|
 |com.epion_t3.basic.err.9016|インクリメント幅の値はint型の正数である必要があります。|
 |com.epion_t3.basic.err.9006|ユーザー入力にてエラーが発生しました.|
+|com.epion_t3.basic.err.9017|指定された変数は存在しませんでした。変数：{0}|
 |com.epion_t3.basic.err.9007|対象のファイルが見つかりません.パス：{0}|
+|com.epion_t3.basic.err.9018|変数は文字列である必要があります。変数：{0}|
