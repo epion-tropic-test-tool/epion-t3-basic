@@ -260,6 +260,7 @@ commands :
 |[RemoveVariable](#RemoveVariable)|任意のスコープ変数に設定してある変数を削除します。  |||
 |[StringConcat](#StringConcat)|複数の文字列を結合して１つの文字列へ加工します。  |||
 |[CreateNowDate](#CreateNowDate)|現在日付を作成して変数に設定します。  |||
+|[RegistrationFileEvidence](#RegistrationFileEvidence)|ファイルエビデンスを登録します。（カスタム機能開発ヘルプ用を想定）  ||X|
 |[AssertNotExistsStringInText](#AssertNotExistsStringInText)|指定したテキストファイルの中に指定した文字列を含まれないことを確認するためのコマンドです。ログファイルに対する確認などに利用可能です。  |X||
 |[FileCopy](#FileCopy)|指定されたファイルをコピーします。  |||
 |[ExceptionOccurred](#ExceptionOccurred)|Exceptionを意図的に発生させます。  ツールの動作確認などでの利用を想定しています。  |||
@@ -368,6 +369,28 @@ commands :
   summary : コマンドの概要（任意）
   description : コマンドの詳細（任意）
   target : 現在日付を設定する変数を指定
+
+```
+
+------
+
+### RegistrationFileEvidence
+ファイルエビデンスを登録します。（カスタム機能開発ヘルプ用を想定）
+#### Command Type
+- Assert : No
+- Evidence : __Yes__
+
+#### Functions
+- ファイルエビデンスを登録します。（カスタム機能開発ヘルプ用を想定）
+
+#### Structure
+```yaml
+commands : 
+  id : コマンドのID
+  command : 「RegistrationFileEvidence」固定
+  summary : コマンドの概要（任意）
+  description : コマンドの詳細（任意）
+  target : 登録するファイルの相対パスを指定。
 
 ```
 
