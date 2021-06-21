@@ -39,7 +39,7 @@ public class CommandTestBase {
                         + testInfo.getTestClass().get().getSimpleName() + "/scenario");
         context.getOption().setTarget(testInfo.getTestMethod().get().getName());
         context.getOption().setResultRootPath(tempDir.toAbsolutePath().toString());
-        context.getOption().setNoreport(true);
+        context.getOption().setNoReport(true);
         executeContext = new ExecuteContext();
         executeContext.setResultRootPath(tempDir);
         CustomParserImpl.getInstance().parse(context, executeContext);
